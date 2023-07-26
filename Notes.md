@@ -3,14 +3,8 @@
 -- 3 Block Status (Occupied = 0, Caution = 1, Clear = 2)
 -- order of digital controller (Locking, Clear, Caution, Signal)
 
--- mainMessage = "Recieved " .. tostring(os.getComputerID() .. "from " .. tostring(mainComputerID))
--- upMessage = "Recieved " .. tostring(os.getComputerID() .. "from up block")
--- downMessage = "Recieved " .. tostring(os.getComputerID() .. "from down block")
 
--- recieved list = {main computer, upBlock, downBlock}
--- send list = {main computer, upBlock, downBlock}
-
-
+-- channel list = (main = 1, down = 2, up = 3)
 
 
 clear state:
@@ -27,3 +21,8 @@ Danger state:
 - signal block state Danger
 - up block nothing
 - down block send caution
+
+-- events
+    -- local event, side, oldState, newState = os.pullEvent("redstone")
+
+    -- local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent("modem_message")

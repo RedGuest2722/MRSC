@@ -3,24 +3,25 @@
 -- variables to be set on install
 
 local digitalControllerName = ""        -- please set the name of digital controller
-local mainComputerID = 0                -- please set the computerID of main computer
-      upBlockID = 0                     -- please set the computerID of up block computer
-      downBlockID = 0                   -- please set the computerID of down block computer
 
 -- varibles
 
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
-local computersID = {mainComputerID, upBlockID, downBlockID}
-local blockStatus = 0
+local channelList = {1, 2, 3}
 
     -- wraping peripherals
 
 local digitalController = peripheral.wrap(digitalControllerName)
-local modem = peripheral.wrap("bottom")
 
--- open rednet
+local modem_main = peripheral.wrap("bottom")
+local modem_down = peripheral.wrap("left")
+local modem_up = peripheral.wrap("right")
 
-rednet.open(modem)
+-- open channels
+
+modem_main.open(channelList[1])
+modem_down.open(channelList[2])
+modem_up.open(channelList[3])
 
 -- set block to Occupied State
 function Occupied()
@@ -28,10 +29,10 @@ function Occupied()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
-
-    rednet.send(downBlockID, 1)
     
-    state = 0
+    modem_down.transmit(channelList[2], channelList[2], "Caution")
+
+    local downRecieve = 0
 
     repeat
         
@@ -41,7 +42,7 @@ function Occupied()
 
     digitalController.setAspect(digitalList[1], 5)
 
-    return state
+    return downRecieve
 
 end
 
@@ -54,9 +55,9 @@ function Warning()
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
 
-    rednet.send(downBlockID, 2)
+    modem_down.transmit(channelList[2], channelList[2], "Clear")
     
-    state = 1
+    local downRecieve = 0
 
     return state
 
@@ -70,12 +71,62 @@ function Clear()
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 1)
 
-    -- rednet.send(downBlock, 2) -- no need to update downblock as already green / red
+end
+
+function trainCheck()
+
+    trainpass = redstone.getAnalogInput("top")
+
+    if trainpass > 0 then
     
-    state = 2
+        Occupied()
 
-    return state
+    end
+end
 
+function updateBlock(stateChange)
+
+   if stateChange == "Caution" then
+    
+        Warning()
+
+    elseif stateChange == "Clear" then
+
+        Clear()
+
+   end 
+end
+
+function messageCheck()
+
+    os.startTimer(0.1)
+
+    local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+ 
+
+    if event == "modem_message" then
+
+        if senderChannel == channelList[1] then
+            
+            mainRecieve = 1
+
+        elseif senderChannel == channelList[2] then
+
+            downRecieve = 1
+
+        elseif senderChannel == channelList[3] then
+
+            return message
+
+        end
+    
+    else
+        
+        message = "noChange"
+
+        return message
+    
+    end
 end
 
 -- Start up
@@ -84,25 +135,9 @@ state = Occupied()
 
 -- main loop of the signal
 while true do
-    
-    trainpass = redstone.getAnalogInput("top")
+  
+message = messageCheck()
+updateBlock(message)
+trainCheck()
 
-    computerID, message = rednet.recieve()
-
-    if trainpass > 0 then
-        
-        Occupied()
-
-    elseif computersID == upBlockID then
-
-        if message == 1 then
-            
-            Warning()
-
-        elseif message == 2 then
-            
-            Clear()
-
-        end
-    end
 end
