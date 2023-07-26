@@ -1,8 +1,5 @@
 -- auto signal
 
--- variables to be set on install
-
-local digitalControllerName = ""        -- please set the name of digital controller
 
 -- varibles
 
@@ -11,7 +8,7 @@ local channelList = {1, 2, 3}
 
     -- wraping peripherals
 
-local digitalController = peripheral.wrap(digitalControllerName)
+local digitalController = peripheral.wrap("bottom")
 
 local modem_main = peripheral.wrap("bottom")
 local modem_down = peripheral.wrap("left")
