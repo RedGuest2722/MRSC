@@ -16,11 +16,11 @@ local blockStatus = 0
     -- wraping peripherals
 
 local digitalController = peripheral.wrap(digitalControllerName)
-local modem = peripheral.wrap("bottem")
+local modem = peripheral.wrap("bottom")
 
--- open rednet to send / recieve messages
+-- open rednet
 
-rednet.open("modem")
+rednet.open(modem)
 
 -- set block to Occupied State
 function Occupied()
