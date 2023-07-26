@@ -8,3 +8,22 @@
 -- downMessage = "Recieved " .. tostring(os.getComputerID() .. "from down block")
 
 -- recieved list = {main computer, upBlock, downBlock}
+-- send list = {main computer, upBlock, downBlock}
+
+
+
+
+clear state:
+- signal block state clear
+- up block nothing
+- down block nothing
+
+Caution state:
+- signal block state Caution
+- up block recieve
+- downblock send clear
+
+Danger state:
+- signal block state Danger
+- up block nothing
+- down block send caution

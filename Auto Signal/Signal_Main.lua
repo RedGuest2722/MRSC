@@ -4,20 +4,14 @@
 
 local digitalControllerName = ""        -- please set the name of digital controller
 local mainComputerID = 0                -- please set the computerID of main computer
-local upBlockID = 0                     -- please set the computerID of up block computer
-local downBlockID = 0                   -- please set the computerID of down block computer
+      upBlockID = 0                     -- please set the computerID of up block computer
+      downBlockID = 0                   -- please set the computerID of down block computer
 
 -- varibles
 
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
 local computersID = {mainComputerID, upBlockID, downBlockID}
 local blockStatus = 0
-
-    -- Messages from Main Computer and Blocks
-
-local mainMessage = "Recieved " .. tostring(os.getComputerID() .. "from " .. tostring(mainComputerID))
-local upMessage = 0
-local downMessage = "Recieved " .. tostring(os.getComputerID() .. "from down block")
 
     -- wraping peripherals
 
@@ -31,10 +25,23 @@ rednet.open(modem)
 -- set block to Occupied State
 function Occupied()
 
-    digitalController.setAspect(digitalList[1], 5)
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
+
+    rednet.send(downBlockID, 1)
+    
+    state = 0
+
+    repeat
+        
+        os.sleep(0.1)
+
+    until redstone.getAnalogInput("top") == 0
+
+    digitalController.setAspect(digitalList[1], 5)
+
+    return state
 
 end
 
@@ -47,6 +54,12 @@ function Warning()
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
 
+    rednet.send(downBlockID, 2)
+    
+    state = 1
+
+    return state
+
 end
 
 -- set block to Clear State
@@ -57,83 +70,39 @@ function Clear()
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 1)
 
-end
-
--- up dates Main Computer and other block computers
-function sendMessage(Device, Status, Recieved, computers)
+    -- rednet.send(downBlock, 2) -- no need to update downblock as already green / red
     
-    for i in ipairs(Recieved) do
-        
-        if Recieved[i] == 0 then
-            
-            if i == 2 then
-                
-                message = "recieved " .. tostring(Device)
+    state = 2
 
-                return message
+    return state
 
-            else
-
-                message = Status
-
-                return message
-
-            end
-
-            rednet.send(computers[i], message)
-
-        end
-
-        Recieved[i] = 0
-
-    end
 end
 
-function recievedMessage()
+-- Start up
 
-    local computerID, Message = rednet.receive()
-
-
-
-end    
-
+state = Occupied()
 
 -- main loop of the signal
 while true do
     
-    trainPass = redstone.getInput("top")                        -- Redstone from Detector
+    trainpass = redstone.getAnalogInput("top")
 
-    if trainPass > 0 and reset == 0 then                        -- check if train has entered controlled block
+    computerID, message = rednet.recieve()
+
+    if trainpass > 0 then
         
-        blockStatus = 0
-        local reset = 1
-
-        return blockStatus, reset
-
-    elseif trainPass == 0 then                                  -- reset detector
-        
-        reset = 0
-
-    elseif blockStatus == 2 then                                -- allows the clear function to run
-        
-        Clear()
-        local mainToChange = 1
-
-        return mainToChange
-
-    elseif blockStatus == 1 then                                -- allows the caution function to run
-
-        Warning()
-        local mainToChange = 1
-
-        return mainToChange
-    
-    elseif blockStatus == 0 then                                -- allows the occupied function to run
-
         Occupied()
-        local mainToChange = 1
 
-        return mainToChange
+    elseif computersID == upBlockID then
 
+        if message == 1 then
+            
+            Warning()
+
+        elseif message == 2 then
+            
+            Clear()
+
+        end
     end
 end
