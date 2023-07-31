@@ -4,7 +4,7 @@
 -- varibles
 
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
-local channelList = {1, 2, 3}
+local channelList = {1, 2}
 
     -- wraping peripherals
 
@@ -18,7 +18,7 @@ local modem_up = peripheral.wrap("right")
 
 modem_main.open(channelList[1])
 modem_down.open(channelList[2])
-modem_up.open(channelList[3])
+modem_up.open(channelList[2])
 
 -- set block to Occupied State
 function Occupied()
@@ -123,7 +123,7 @@ function messageCheck()
 
             message = "noChange"
          
-        elseif senderChannel == channelList[3] then
+        elseif senderChannel == channelList[2] then
 
             upSend = 1
 
