@@ -14,12 +14,6 @@ modem_main = peripheral.wrap("back")
 modem_down = peripheral.wrap("left")
 modem_up = peripheral.wrap("right")
 
--- open channels
-
-modem_main.open(channelList[1])
-modem_down.open(channelList[2])
-modem_up.open(channelList[2])
-
 -- set block to Occupied State
 function Occupied()
 
