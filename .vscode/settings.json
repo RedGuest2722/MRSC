@@ -8,6 +8,7 @@
         "downRecieve",
         "state",
         "message",
-        "peripheral"
+        "peripheral",
+        "redstone"
     ]
 }
