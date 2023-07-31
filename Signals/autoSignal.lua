@@ -26,8 +26,10 @@ function Occupied()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
-    
+
+    modem_down.open(channelList[2])
     modem_down.transmit(channelList[2], channelList[2], "Caution")
+    modem_down.close(channelList[2])
 
     downRecieve = 0
 
@@ -56,8 +58,10 @@ function Warning()
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
 
+    modem_down.open(channelList[2])
     modem_down.transmit(channelList[2], channelList[2], "Clear")
-    
+    modem_down.close(channelList[2])
+
     downRecieve = 0
 
     print("In caution state")
