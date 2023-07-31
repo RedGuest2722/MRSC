@@ -31,6 +31,8 @@ function Occupied()
 
     local downRecieve = 0
 
+    print("Train Wait")
+
     repeat
         
         os.sleep(0.1)
@@ -38,6 +40,8 @@ function Occupied()
     until redstone.getAnalogInput("top") == 0
 
     digitalController.setAspect(digitalList[1], 5)
+
+    print("In danger state")
 
     return downRecieve
 
@@ -56,6 +60,8 @@ function Warning()
     
     local downRecieve = 0
 
+    print("In caution state")
+
     return state
 
 end
@@ -67,6 +73,8 @@ function Clear()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 1)
+
+    print("In clear state")
 
 end
 
@@ -128,6 +136,7 @@ end
 
 -- Start up
 
+term.clear()
 state = Occupied()
 
 -- main loop of the signal
