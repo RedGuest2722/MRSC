@@ -29,7 +29,7 @@ function Occupied()
     
     modem_down.transmit(channelList[2], channelList[2], "Caution")
 
-    local downRecieve = 0
+    downRecieve = 0
 
     print("Train Wait")
 
@@ -58,7 +58,7 @@ function Warning()
 
     modem_down.transmit(channelList[2], channelList[2], "Clear")
     
-    local downRecieve = 0
+    downRecieve = 0
 
     print("In caution state")
 
@@ -115,23 +115,29 @@ function messageCheck()
             
             mainRecieve = 1
 
+            message = "noChange"
+
         elseif senderChannel == channelList[2] then
 
             downRecieve = 1
 
+            message = "noChange"
+         
         elseif senderChannel == channelList[3] then
 
-            upRecieve = 1
+            upSend = 1
 
         end
     
     else
         
-        local message = "noChange"
+        message = "noChange"
 
-        return message
     
     end
+
+    return message
+
 end
 
 -- Start up
@@ -142,7 +148,7 @@ state = Occupied()
 -- main loop of the signal
 while true do
   
-local message = messageCheck()
+message = messageCheck()
 updateBlock(message)
 trainCheck()
 

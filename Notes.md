@@ -28,4 +28,5 @@ Danger state:
     -- local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent("modem_message")
 
 
--- test
+to do:
+- create resend function
