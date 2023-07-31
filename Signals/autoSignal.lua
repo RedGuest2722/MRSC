@@ -106,7 +106,7 @@ function messageCheck()
 
     os.startTimer(0.1)
 
-    local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+    event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
  
 
     if event == "modem_message" then
@@ -136,8 +136,6 @@ function messageCheck()
     
     end
 
-    return message
-
 end
 
 -- Start up
@@ -148,7 +146,7 @@ state = Occupied()
 -- main loop of the signal
 while true do
   
-message = messageCheck()
+messageCheck()
 updateBlock(message)
 trainCheck()
 
