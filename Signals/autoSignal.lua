@@ -3,16 +3,16 @@
 
 -- varibles
 
-local digitalList = {"Locking", "Clear", "Caution", "Signal"}
-local channelList = {1, 2}
+digitalList = {"Locking", "Clear", "Caution", "Signal"}
+channelList = {1, 2}
 
     -- wraping peripherals
 
-local digitalController = peripheral.wrap("bottom")
+digitalController = peripheral.wrap("bottom")
 
-local modem_main = peripheral.wrap("back")
-local modem_down = peripheral.wrap("left")
-local modem_up = peripheral.wrap("right")
+modem_main = peripheral.wrap("back")
+modem_down = peripheral.wrap("left")
+modem_up = peripheral.wrap("right")
 
 -- open channels
 
