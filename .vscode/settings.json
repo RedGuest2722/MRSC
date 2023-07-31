@@ -1,0 +1,13 @@
+{
+    "Lua.diagnostics.globals": [
+        "trainCheck",
+        "trainpass",
+        "updateBlock",
+        "messageCheck",
+        "mainRecieve",
+        "downRecieve",
+        "state",
+        "message",
+        "peripheral"
+    ]
+}

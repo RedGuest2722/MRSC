@@ -10,7 +10,7 @@ local channelList = {1, 2, 3}
 
 local digitalController = peripheral.wrap("bottom")
 
-local modem_main = peripheral.wrap("bottom")
+local modem_main = peripheral.wrap("back")
 local modem_down = peripheral.wrap("left")
 local modem_up = peripheral.wrap("right")
 
@@ -113,13 +113,13 @@ function messageCheck()
 
         elseif senderChannel == channelList[3] then
 
-            return message
+            upRecieve = 1
 
         end
     
     else
         
-        message = "noChange"
+        local message = "noChange"
 
         return message
     
@@ -133,7 +133,7 @@ state = Occupied()
 -- main loop of the signal
 while true do
   
-message = messageCheck()
+local message = messageCheck()
 updateBlock(message)
 trainCheck()
 
