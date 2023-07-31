@@ -27,9 +27,7 @@ function Occupied()
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
 
-    modem_down.open(channelList[2])
     modem_down.transmit(channelList[2], channelList[2], "Caution")
-    modem_down.close(channelList[2])
 
     downRecieve = 0
 
@@ -58,9 +56,7 @@ function Warning()
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
 
-    modem_down.open(channelList[2])
     modem_down.transmit(channelList[2], channelList[2], "Clear")
-    modem_down.close(channelList[2])
 
     downRecieve = 0
 
@@ -110,8 +106,9 @@ function messageCheck()
 
     os.startTimer(0.1)
 
+    modem_down.open(channelList[2])
     event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
- 
+    modem_down.close(channelList[2])
 
     if event == "modem_message" then
 
