@@ -83,13 +83,13 @@ function trainCheck()
     end
 end
 
-function updateBlock(stateChange)
+function updateBlock()
 
-   if stateChange == "Caution" then
+   if message == "Caution" then
     
         Warning()
 
-    elseif stateChange == "Clear" then
+    elseif message == "Clear" then
 
         Clear()
 
@@ -142,7 +142,7 @@ state = Occupied()
 while true do
   
 messageCheck()
-updateBlock(message)
+updateBlock()
 trainCheck()
 
 end
