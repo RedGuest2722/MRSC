@@ -3,6 +3,7 @@
 -- variables
 
 digitalList = {"Locking", "Clear", "Caution", "Signal"}
+xSize, ySize = term.getSize()
 
 -- wraping peripherals
 digitalController = peripheral.wrap("bottom")
@@ -17,13 +18,22 @@ modemMain.open(5)
 modemDown.open(2)
 modemUp.open(2)
 
+function screen(colour)
+
+    term.setBackgroundColor(colour)
+    window.redraw()
+
+end
+
 function occupied()
 
     digitalController.setAspect(digitalList[1], 5)
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
-    term.setTextColor(colors.red)
+    
+    
+    screen(colors.red)
 
 end
 
@@ -33,7 +43,8 @@ function caution()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
-    term.setTextColor(colors.orange)
+    
+    screen(colors.orange)
 
 end
 
@@ -43,7 +54,8 @@ function clear()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 1) 
-    term.setTextColor(colors.green)   
+    
+    screen(colors.green)  
 
 end
 
@@ -106,15 +118,11 @@ end
 
 state = {"occupied", 1, 1}
 updateBlock("occupied")
-term.setBackgroundColor(colors.black)
+term.clear()
 
 while true do
 
     trainCheck()
-    term.write("TC D ")
-    print("")
     messageCheck()
-    term.write("MC D ")
-    print("")
 
 end
