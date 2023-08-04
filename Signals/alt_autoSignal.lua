@@ -105,8 +105,10 @@ term.setBackgroundColor(colors.black)
 while true do
 
     trainCheck()
-    term.write("TC D")
+    term.write("TC D ")
+    print("")
     messageCheck()
-    term.write("MC D")
+    term.write("MC D ")
+    print("")
 
 end
