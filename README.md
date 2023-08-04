@@ -2,7 +2,7 @@ Minecraft Railway Signalling Center (MRSC)
 
 A Railway control and monitor.
 
-Plans:
+PLANS:
 
 - Main Display that shows everything
 - sub areas
@@ -23,7 +23,7 @@ Auto or Manual mode:
 If user wanted to they can take manual mode over the Signalling area either the whole line or the specific sub areas 
 
 
--- startup
+STARTUP:
 
 all recievers need to have redstone active on green (which is the default)
 the "signal" controller must have no redstone output
