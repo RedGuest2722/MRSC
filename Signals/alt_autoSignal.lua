@@ -28,8 +28,8 @@ end
 
 function occupied()
 
-    digitalController.setAspect(digitalList[1], 5)
-    digitalController.setAspect(digitalList[2], 1)
+    digitalController.setAspect(digitalList[1], 1)
+    digitalController.setAspect(digitalList[2], 5)
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
     
@@ -40,7 +40,7 @@ end
 
 function caution()
    
-    digitalController.setAspect(digitalList[1], 1)
+    digitalController.setAspect(digitalList[1], 5)
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
@@ -51,9 +51,9 @@ end
 
 function clear()
 
-    digitalController.setAspect(digitalList[1], 1)
-    digitalController.setAspect(digitalList[2], 1)
-    digitalController.setAspect(digitalList[3], 5)
+    digitalController.setAspect(digitalList[1], 5)
+    digitalController.setAspect(digitalList[2], 5)
+    digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 1) 
     
     screen(colors.green)  

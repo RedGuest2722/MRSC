@@ -6,3 +6,5 @@
 -- state = [state, down, main]
 
 -- modem ports main = 5, down/up = 2
+
+-- redstone aspect = red(5) then redstone torch is on
