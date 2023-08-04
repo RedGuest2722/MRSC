@@ -18,6 +18,8 @@ modemMain.open(5)
 modemDown.open(2)
 modemUp.open(2)
 
+
+-- change screen colours
 function screen(colour)
 
     term.setBackgroundColor(colour)
