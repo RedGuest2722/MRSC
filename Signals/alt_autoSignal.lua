@@ -117,8 +117,8 @@ end
 -- startup
 
 state = {"occupied", 1, 1}
-updateBlock("occupied")
 term.clear()
+updateBlock("occupied")
 
 while true do
 
