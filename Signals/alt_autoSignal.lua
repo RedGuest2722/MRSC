@@ -17,6 +17,7 @@ function occupied()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 1)
     digitalController.setAspect(digitalList[4], 5)
+    term.setTextColor(colors.red)
 
 end
 
@@ -26,6 +27,7 @@ function caution()
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 5)
     digitalController.setAspect(digitalList[4], 3)
+    term.setTextColor(colors.orange)
 
 end
 
@@ -34,7 +36,8 @@ function clear()
     digitalController.setAspect(digitalList[1], 1)
     digitalController.setAspect(digitalList[2], 1)
     digitalController.setAspect(digitalList[3], 5)
-    digitalController.setAspect(digitalList[4], 1)    
+    digitalController.setAspect(digitalList[4], 1) 
+    term.setTextColor(colors.green)   
 
 end
 
@@ -73,7 +76,7 @@ end
 
 function messageCheck()
 
-    os.startTimer() -- this stops the os.pull() from running indefinitly
+    os.startTimer(0.1) -- this stops the os.pull() from running indefinitly
     event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
 
     if event == "modem_message" then
@@ -97,12 +100,13 @@ end
 
 state = {"occupied", 1, 1}
 updateBlock("occupied")
+term.setBackgroundColor(colors.black)
 
 while true do
 
     trainCheck()
-    print("TC D")
+    term.write("TC D")
     messageCheck()
-    print("MC D")
+    term.write("MC D")
 
 end
