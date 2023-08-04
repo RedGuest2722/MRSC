@@ -3,7 +3,6 @@
 -- variables
 
 digitalList = {"Locking", "Clear", "Caution", "Signal"}
-xSize, ySize = term.getSize()
 
 -- wraping peripherals
 digitalController = peripheral.wrap("bottom")
@@ -23,14 +22,8 @@ modemUp.open(2)
 function screen(colour)
 
     term.setBackgroundColor(colour)
-    for q in ySize do
-        
-        for w in xSize do
+    term.clear()
 
-            term.write(" ")
-
-        end    
-    end
 end
 
 function occupied()
@@ -125,7 +118,6 @@ end
 -- startup
 
 state = {"occupied", 1, 1}
-term.clear()
 updateBlock("occupied")
 
 while true do
