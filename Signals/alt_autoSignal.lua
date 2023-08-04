@@ -21,8 +21,14 @@ modemUp.open(2)
 function screen(colour)
 
     term.setBackgroundColor(colour)
-    window.redraw()
+    for q in ySize do
+        
+        for w in xSize do
 
+            term.write(" ")
+
+        end    
+    end
 end
 
 function occupied()
