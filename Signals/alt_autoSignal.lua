@@ -43,11 +43,11 @@ function updateBlock(stateChange)
 
     if stateChange == "occupied" then
         occupied() 
-        modemDown.transmit(2, nil, "caution")
+        modemDown.transmit(2, 500, "caution")
         state = {"occupied", 1, 1}
     elseif stateChange == "caution" then
         caution()
-        modemDown.transmit(2, nil, "clear")
+        modemDown.transmit(2, 500, "clear")
         state = {"caution", 1, 1}
     elseif stateChange == "clear" then
         clear()
