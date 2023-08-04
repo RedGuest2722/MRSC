@@ -101,6 +101,8 @@ updateBlock("occupied")
 while true do
 
     trainCheck()
+    print("TC D")
     messageCheck()
+    print("MC D")
 
 end
