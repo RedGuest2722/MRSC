@@ -58,13 +58,13 @@ end
 -- see if train has occupied the block
 function trainCheck()
     
-    if redstone.getAnalogInput() > 0 then
+    if redstone.getAnalogInput("top") > 0 then
 
         repeat
         
             os.sleep(0.1)
     
-        until redstone.getAnalogInput() == 0
+        until redstone.getAnalogInput("top") == 0
         
         updateBlock("occupied")
 
