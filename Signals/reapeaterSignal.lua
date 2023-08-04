@@ -49,7 +49,7 @@ function updateBlock(stateChange)
 
     if stateChange == "caution" then
         caution()
-        modemDown.transmit(2, 500, "clear")
+        modemBlock.transmit(2, 500, "clear")
         state = {"caution", 1, nil}
     elseif stateChange == "clear" then
         clear()
