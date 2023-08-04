@@ -11,6 +11,12 @@ modemMain = peripheral.wrap("back")
 modemDown = peripheral.wrap("left")
 modemUp = peripheral.wrap("right")
 
+-- ports
+
+modemMain.open(5)
+modemDown.open(2)
+modemUp.open(2)
+
 function occupied()
 
     digitalController.setAspect(digitalList[1], 5)

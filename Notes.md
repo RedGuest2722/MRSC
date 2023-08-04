@@ -4,3 +4,5 @@
 -- order of digital controller (Locking, Clear, Caution, Signal)
 
 -- state = [state, down, main]
+
+-- modem ports main = 5, down/up = 2
