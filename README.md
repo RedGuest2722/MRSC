@@ -8,6 +8,7 @@ PLANS:
 - sub areas
 - junction control
 - auto or manual mode
+- auto update individual signals (ask main to allow or self if no main connected)
 
 
 Main Display:
