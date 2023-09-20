@@ -11,4 +11,4 @@
 
 
 -- main mode comms (subareas? for junctions):
-cable
+-- cable run underneath center for main control/display

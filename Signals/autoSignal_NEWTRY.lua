@@ -4,16 +4,16 @@
 digitalList = {"Locking", "Clear", "Caution", "Signal"}
 
 -- wraping peripherals
-digitalController = peripheral.wrap("bottom")
+digitalController = peripheral.wrap("bottom") -- CC and RC Interface
 
 modemMain = peripheral.wrap("back")
 modemDown = peripheral.wrap("left")
 modemUp = peripheral.wrap("right")
 
 -- ports
-modemMain.open(5)
-modemDown.open(2)
-modemUp.open(2)
+modemMain.open(5) -- transmit between signal center and signal
+modemDown.open(2) -- transmit to down signal
+modemUp.open(2)   -- transmit to up signal
 
 
 -- change screen colours
@@ -24,36 +24,38 @@ function screen(colour)
 
 end
 
-function occupied()
+-- next few function control the RC interface with the block state
 
-    digitalController.setAspect(digitalList[1], 1)
-    digitalController.setAspect(digitalList[2], 1)
-    digitalController.setAspect(digitalList[3], 5)
-    digitalController.setAspect(digitalList[4], 5)
+function occupied() -- set block as occupied
+
+    digitalController.setAspect(digitalList[1], 1) -- RS off: Locking Track: allow through
+    digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
+    digitalController.setAspect(digitalList[3], 5) -- RS on: 2 speed
+    digitalController.setAspect(digitalList[4], 5) -- Signal Red
     
-    screen(colors.red)
+    screen(colors.red) -- identification for player
 
 end
 
-function caution()
+function caution() -- set block as caution
    
-    digitalController.setAspect(digitalList[1], 5)
-    digitalController.setAspect(digitalList[2], 1)
-    digitalController.setAspect(digitalList[3], 5)
-    digitalController.setAspect(digitalList[4], 3)
+    digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
+    digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
+    digitalController.setAspect(digitalList[3], 5) -- RS on: 2 speed
+    digitalController.setAspect(digitalList[4], 3) -- Signal Orange/Yellow
     
-    screen(colors.orange)
+    screen(colors.orange) -- identification for player
 
 end
 
-function clear()
+function clear() -- set block as clear
 
-    digitalController.setAspect(digitalList[1], 5)
-    digitalController.setAspect(digitalList[2], 5)
-    digitalController.setAspect(digitalList[3], 1)
-    digitalController.setAspect(digitalList[4], 1) 
+    digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
+    digitalController.setAspect(digitalList[2], 5) -- RS on: 4 speed
+    digitalController.setAspect(digitalList[3], 1) -- RS off: 2 speed
+    digitalController.setAspect(digitalList[4], 1) -- Signal Green
     
-    screen(colors.green)  
+    screen(colors.green) -- identification for player
 
 end
 
@@ -61,16 +63,22 @@ end
 function updateBlock(stateChange)
 
     if stateChange == "occupied" then
+
         occupied() 
-        modemDown.transmit(2, 500, "caution")
+        modemDown.transmit(2, 500, "caution") -- send the state the down signal needs to be
         state = {"occupied", 1, 1}
+
     elseif stateChange == "caution" then
+
         caution()
-        modemDown.transmit(2, 500, "clear")
+        modemDown.transmit(2, 500, "clear") -- send the state the down signal needs to be
         state = {"caution", 1, 1}
+
     elseif stateChange == "clear" then
+        
         clear()
         state = {"clear", 0, 0}
+
     end
 end
 
@@ -97,7 +105,7 @@ function messageCheck()
 
     if event == "modem_message" then
         
-        if side == "right" then
+        if side == "right" then -- from up signal message
             
             if message == "caution" then
 
@@ -109,17 +117,20 @@ function messageCheck()
 
             end
         
-        elseif side == "left" then
+        elseif side == "left" then -- from down signal when starting
 
-            state = digitalController.getaspect(digitalList[4])
+            state_start = digitalController.getaspect(digitalList[4])
             
-            if state == 1 then
+            if state_start == 1 or 3 then
 
                 
-                modemDown.transmit(2, 500, "")
+                modemDown.transmit(2, 500, "clear")
+
+            elseif state_start == 5 then
+                
+                modemDown.transmit(2, 500, "caution")
 
             end
-
         end
     end
 end
@@ -129,8 +140,12 @@ end
 state = {"occupied", 1, 1}
 updateBlock("occupied")
 
-modemUp.transmit(2, 2, "Request")
+modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
+id = os.startTimer(5)
+event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+
+-- main loop
 while true do
 
     trainCheck()
