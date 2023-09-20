@@ -117,7 +117,11 @@ function messageCheck()
 
             end
         
+<<<<<<< HEAD
         elseif side == "left" then -- from down signal when starting
+=======
+        elseif side == "left" and message == "Request" then -- from down signal when starting
+>>>>>>> c9719eaee2473188f875259e4e6ba627a06b4b99
 
             state_start = digitalController.getaspect(digitalList[4])
             
