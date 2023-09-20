@@ -23,6 +23,10 @@ This will allow interlocking over the junction
 Auto or Manual mode:
 If user wanted to they can take manual mode over the Signalling area either the whole line or the specific sub areas 
 
+DOWNLOAD
+
+wget 
+
 
 STARTUP:
 
