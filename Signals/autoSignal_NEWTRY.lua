@@ -121,7 +121,7 @@ function messageCheck()
 
             state_start = digitalController.getaspect(digitalList[4])
             
-            if state_start == 1 or 3 then
+            if state_start == 1 or state_start == 3 then
 
                 
                 modemDown.transmit(2, 500, "clear")
@@ -143,22 +143,31 @@ updateBlock("occupied")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 id = os.startTimer(5)
-print("Waiting for signal state to be in from up signal. (5 secs max)")
-event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+print("Waiting for signal state to be in from up signal. Else will remain as Occupied (red). (5 secs max)")
+event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent("")
 
-if event == "modem_message" then
-    if side == "right" then -- from up signal message (startup)
+if event == "modem_message" and side_id == "right" then -- from up signal message (startup)
+
             
-        if message == "caution" then
+    if message == "caution" then
 
-            updateBlock("caution")
+        updateBlock("caution")
             
-        elseif message == "clear" then
+    elseif message == "clear" then
 
-            updateBlock("clear")
+        updateBlock("clear")
 
-        end
     end
+
+
+else
+
+    print("no message received")
+    os.sleep(1)
+    print("staying as Occupied")
+
+    screen(colors.red)
+
 end
 
 -- main loop
