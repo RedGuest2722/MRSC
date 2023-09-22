@@ -117,7 +117,6 @@ function messageCheck()
 
             end
         
-        elseif side == "left" then -- from down signal when starting
         elseif side == "left" and message == "Request" then -- from down signal when starting
 
             state_start = digitalController.getaspect(digitalList[4])
@@ -144,7 +143,23 @@ updateBlock("occupied")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 id = os.startTimer(5)
+print("Waiting for signal state to be in from up signal. (5 secs max)")
 event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+
+if event == "modem_message" then
+    if side == "right" then -- from up signal message (startup)
+            
+        if message == "caution" then
+
+            updateBlock("caution")
+            
+        elseif message == "clear" then
+
+            updateBlock("clear")
+
+        end
+    end
+end
 
 -- main loop
 while true do
