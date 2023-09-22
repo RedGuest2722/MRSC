@@ -144,10 +144,11 @@ modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 id = os.startTimer(5)
 print("Waiting for signal state to be in from up signal. Else will remain as Occupied (red). (5 secs max)")
-event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent("")
+event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent("modem_message" or "timer")
 
 if event == "modem_message" and side_id == "right" then -- from up signal message (startup)
 
+    os.cancelTimer(id)
             
     if message == "caution" then
 
@@ -166,6 +167,7 @@ else
     os.sleep(1)
     print("staying as Occupied")
 
+    term.clear()
     screen(colors.red)
 
 end
