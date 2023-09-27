@@ -12,3 +12,9 @@
 
 -- main mode comms (subareas? for junctions):
 -- cable run underneath center for main control/display
+
+
+-- **update window => new window for auto signal or commands in sigInterface**
+
+"Waiting for signal state to be in from up signal
+Else will remain as Occupied (red). (5 secs max)"
