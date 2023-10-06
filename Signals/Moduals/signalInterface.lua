@@ -11,6 +11,8 @@ local xMid = math.floor(6 * (xMax / 7))  -- Seperation for Text and Signal Displ
 
 -- Variables
 
+local vers = 1
+
 local q = 0
 local w = 0
 local e = xMid + 1
@@ -294,4 +296,10 @@ function writeText(messageRecieved, fontColor, backgroundColor)
         table.remove(messageConRec, 1)
 
     end
+end
+
+function version()
+
+    return vers
+
 end
