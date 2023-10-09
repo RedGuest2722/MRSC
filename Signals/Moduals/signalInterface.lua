@@ -164,7 +164,7 @@ function Initiation()
 
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
-    term.setCursorPos((xMax - (1 + string.len(vers))), yMax)
+    term.setCursorPos((xMax - string.len(vers)), (yMax + 1))
     term.write(vers)
 
     SignalInitiation()
