@@ -303,7 +303,7 @@ function versionWrite(signalVers)
 
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
-    term.setCursorPos(2, yMax)
+    term.setCursorPos(2, (yMax + 1))
     term.write(signalVers)
 
 end
