@@ -58,10 +58,6 @@ local function download(file_download)
         end
     end
 
-    print(fs.exists(dir_find[1]))
-
-    os.sleep(5)
-
     if fs.exists(dir_find[1]) then
 
         -- Download the file

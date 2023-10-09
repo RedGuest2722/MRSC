@@ -142,9 +142,6 @@ function Initiation()
         term.setCursorPos(q, yMax)
         term.write(" ") -- Bottem 1
 
-        term.setCursorPos(q, (yMax + 1))
-        term.write(" ") -- Bottem 2
-
         q = q + 1 -- Next
 
     end
