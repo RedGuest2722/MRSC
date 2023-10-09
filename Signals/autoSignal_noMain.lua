@@ -4,7 +4,7 @@ os.loadAPI("Signals/Moduals/signalInterface.lua")
 
 -- variables
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
-local vers = "Signal V0.1.0"
+local vers = "Signal Version: 0.1.0"
 
 -- wraping peripherals
 local digitalController = peripheral.wrap("bottom") -- CC and RC Interface
