@@ -50,7 +50,7 @@ if selection == "1" then
     print("2: Repeater Signal")
     print("3: Manual Signal")
 
-    type = tostring(read())
+    typeProgram = tostring(read())
     
 elseif selection == "2" then
 
@@ -60,7 +60,7 @@ elseif selection == "2" then
     print("1: FFSS to MM")
     print("2: SFFS to MM")
 
-    type = tostring(read())
+    typeProgram = tostring(read())
 
 elseif selection == "3" then
     
@@ -68,8 +68,6 @@ elseif selection == "3" then
     os.sleep(0.5)
 
     error("NIOP")
-
-    -- return type
 
 else
 
@@ -85,15 +83,15 @@ if selection == "1" then
 
     download(files[1])
     
-    if type == "1" then
+    if typeProgram == "1" then
 
         download(files[4])
 
-    elseif type == "2" then
+    elseif typeProgram == "2" then
 
         download(files[5])
 
-    elseif type == "3" then
+    elseif typeProgram == "3" then
 
         download(files[6])
 
@@ -107,11 +105,11 @@ elseif selection == "2" then
 
     fs.makeDir("Junction")
 
-    if type == "1" then
+    if typeProgram == "1" then
         
         download(files[2])
 
-    elseif type == "2" then
+    elseif typeProgram == "2" then
 
         download(files[3])
 
