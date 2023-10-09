@@ -3,14 +3,15 @@
 os.loadAPI("Signals/Moduals/signalInterface.lua")
 
 -- variables
-digitalList = {"Locking", "Clear", "Caution", "Signal"}
+local digitalList = {"Locking", "Clear", "Caution", "Signal"}
+local vers = "Signal V0.1.0"
 
 -- wraping peripherals
-digitalController = peripheral.wrap("bottom") -- CC and RC Interface
+local digitalController = peripheral.wrap("bottom") -- CC and RC Interface
 
-modemMain = peripheral.wrap("back")
-modemDown = peripheral.wrap("left")
-modemUp = peripheral.wrap("right")
+local modemMain = peripheral.wrap("back")
+local modemDown = peripheral.wrap("left")
+local modemUp = peripheral.wrap("right")
 
 -- ports
 modemMain.open(5) -- transmit between signal center and signal
@@ -100,7 +101,7 @@ end
 function messageCheck()
 
 	os.startTimer(0.1) -- this stops the os.pull() from running indefinitly
-	event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+	local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
 
 	if event == "modem_message" then
 		
@@ -139,6 +140,7 @@ end
 -- startup
 
 signalInterface.Initiation()
+signalInterface.signalVers(vers)
 
 state = {"occupied", 1, 1}
 updateBlock("occupied")
@@ -147,7 +149,7 @@ os.sleep(2)
 signalInterface.writeText("Initiation Complete")
 
 os.sleep(2)
-id = os.startTimer(5)
+local id = os.startTimer(5)
 signalInterface.writeText("Waiting for inital signal state, from up signal. (5 secs max)")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
