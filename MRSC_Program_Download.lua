@@ -39,7 +39,7 @@ print("1: For Signals")
 print("2: For Junctions")
 print("3: For Stations (NIOP)")
 
-local selection = read()
+local selection = tostring(read())
 
 if selection == "1" then
 
@@ -50,7 +50,7 @@ if selection == "1" then
     print("2: Repeater Signal")
     print("3: Manual Signal")
 
-    local type = read()
+    local type = tostring(read())
     
 elseif selection == "2" then
 
@@ -60,7 +60,7 @@ elseif selection == "2" then
     print("1: FFSS to MM")
     print("2: SFFS to MM")
 
-    local type = read()
+    local type = tostring(read())
 
 elseif selection == "3" then
     
