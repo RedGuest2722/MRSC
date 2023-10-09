@@ -1,6 +1,6 @@
 -- auto Signal
 
-os.loadAPI("Moduals/signalInterface.lua")
+os.loadAPI("Signals/Moduals/signalInterface.lua")
 
 -- variables
 digitalList = {"Locking", "Clear", "Caution", "Signal"}

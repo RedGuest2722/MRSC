@@ -1,6 +1,8 @@
 -- MRSC Program Download
 
+-- Variables
 
+local gitdir = "https://raw.githubusercontent.com/RedGuest2722/MRSC/main/"
 
 
 
