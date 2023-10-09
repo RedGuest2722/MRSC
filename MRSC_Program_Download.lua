@@ -51,6 +51,8 @@ if selection == "1" then
     print("3: Manual Signal")
 
     local type = tostring(read())
+
+    return type
     
 elseif selection == "2" then
 
@@ -62,12 +64,16 @@ elseif selection == "2" then
 
     local type = tostring(read())
 
+    return type
+
 elseif selection == "3" then
     
     print("Station Selection: ")
     os.sleep(0.5)
 
     error("NIOP")
+
+    -- return type
 
 else
 
