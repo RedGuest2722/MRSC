@@ -6,18 +6,17 @@ local repo_main = "https://raw.githubusercontent.com/RedGuest2722/MRSC/main/"
 local files = {"Signals/Moduals/signalInterface.lua", "Junction/FFSS to MM.lua", "Junction/SFFS to MM.lua", "Signals/autoSignal_noMain.lua", "Signals/repeaterSignal_noMain.lua", "Signals/manualSignal_noMain.lua"}
 local version = "0.0.1"
 
+-- Download and save file
 function download(file)
-
-    -- Download the file
+    -- Get file from repo
     local handle = http.get(repo_main .. file)
     local content = handle.readAll()
     handle.close()
 
-    -- Save the file
+    -- Save file locally in the correct directory
     local fileHandle = fs.open(file, "w")
     fileHandle.write(content)
     fileHandle.close()
-
 end
 
 print("MRSC Downloader Version: " .. version)

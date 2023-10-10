@@ -1,4 +1,5 @@
--- auto Signal
+-- Automatic Signal
+-- This signal cannot controled manually.
 
 os.loadAPI("Signals/Moduals/signalInterface.lua")
 
@@ -20,121 +21,125 @@ modemUp.open(2)   -- transmit to up signal
 
 -- next few function control the RC interface with the block state
 
-function occupied() -- set block as occupied
-	
-	digitalController.setAspect(digitalList[1], 1) -- RS off: Locking Track: allow through
-	digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
-	digitalController.setAspect(digitalList[3], 5) -- RS on: 2 speed
-	digitalController.setAspect(digitalList[4], 5) -- Signal Red
+-- Set block as occupied
+local function occupied()
 
-	signalInterface.SignalClear(colors.lightGray)
-	signalInterface.SignalCaution(colors.lightGray)
-	signalInterface.SignalDanger(colors.red)
-	
-end
+    -- RS off: Locking Track: allow through
+    digitalController.setAspect(digitalList[1], 1)
 
-function caution() -- set block as caution
-   
-	digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
-	digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
-	digitalController.setAspect(digitalList[3], 5) -- RS on: 2 speed
-	digitalController.setAspect(digitalList[4], 3) -- Signal Orange/Yellow
+    -- RS off: 4 speed
+    digitalController.setAspect(digitalList[2], 1)
 
-	signalInterface.SignalClear(colors.lightGray)
-	signalInterface.SignalCaution(colors.orange)
-	signalInterface.SignalDanger(colors.lightGray)
+    -- RS on: 2 speed
+    digitalController.setAspect(digitalList[3], 5)
+
+    -- Signal Red
+    digitalController.setAspect(digitalList[4], 5)
+
+    -- Clear, Caution, and Danger signals
+    signalInterface.SignalClear(colors.lightGray)
+    signalInterface.SignalCaution(colors.lightGray)
+    signalInterface.SignalDanger(colors.red)
 
 end
 
-function clear() -- set block as clear
+-- Set block as caution
+function caution()
+    -- RS on: Locking Track: allow through
+    digitalController.setAspect(digitalList[1], 5)
+    -- RS off: 4 speed
+    digitalController.setAspect(digitalList[2], 1)
+    -- RS on: 2 speed
+    digitalController.setAspect(digitalList[3], 5)
+    -- Signal Orange/Yellow
+    digitalController.setAspect(digitalList[4], 3)
 
-	digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
-	digitalController.setAspect(digitalList[2], 5) -- RS on: 4 speed
-	digitalController.setAspect(digitalList[3], 1) -- RS off: 2 speed
-	digitalController.setAspect(digitalList[4], 1) -- Signal Green
-
-	signalInterface.SignalClear(colors.green)
-	signalInterface.SignalCaution(colors.lightGray)
-	signalInterface.SignalDanger(colors.lightGray)
-
+    -- Clear signals, set caution, and clear danger
+    signalInterface.SignalClear(colors.lightGray)
+    signalInterface.SignalCaution(colors.orange)
+    signalInterface.SignalDanger(colors.lightGray)
 end
 
--- this tells the computer what block state to be in
-function updateBlock(stateChange)
+-- Function to clear block
+local function clear()
+    -- Set RS on: Locking Track
+    digitalController.setAspect(digitalList[1], 5)
+    -- Set RS on: 4 speed
+    digitalController.setAspect(digitalList[2], 5)
+    -- Set RS off: 2 speed
+    digitalController.setAspect(digitalList[3], 1)
+    -- Set signal to green
+    digitalController.setAspect(digitalList[4], 1)
 
-	if stateChange == "occupied" then
-
-		occupied() 
-		modemDown.transmit(2, 500, "caution") -- send the state the down signal needs to be
-		state = {"occupied", 1, 1}
-
-	elseif stateChange == "caution" then
-
-		caution()
-		modemDown.transmit(2, 500, "clear") -- send the state the down signal needs to be
-		state = {"caution", 1, 1}
-
-	elseif stateChange == "clear" then
-		
-		clear()
-		state = {"clear", 0, 0}
-
-	end
+    -- Clear signal
+    signalInterface.SignalClear(colors.green)
+    -- Set caution signal to light gray
+    signalInterface.SignalCaution(colors.lightGray)
+    -- Set danger signal to light gray
+    signalInterface.SignalDanger(colors.lightGray)
 end
 
--- see if train has occupied the block
-function trainCheck()
-	
-	if redstone.getAnalogInput("top") > 0 then
+-- Function to update block state
+local function updateBlock(stateChange)
 
-		repeat
-		
-			os.sleep(0.1)
-	
-		until redstone.getAnalogInput("top") == 0
-		
-		updateBlock("occupied")
+    -- Check for occupied state
+    if stateChange == "occupied" then
+        occupied() 
+        modemDown.transmit(2, 500, "caution") -- send state to down signal
+        state = {"occupied", 1, 1}
 
-	end
+    -- Check for caution state
+    elseif stateChange == "caution" then
+        caution()
+        modemDown.transmit(2, 500, "clear") -- send state to down signal
+        state = {"caution", 1, 1}
+
+    -- Check for clear state
+    elseif stateChange == "clear" then
+        clear()
+        state = {"clear", 0, 0}
+
+    end
 end
 
-function messageCheck()
+local function messageCheck()
+    os.startTimer(0.1) -- stop os.pull() indefinitely
+    local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
 
-	os.startTimer(0.1) -- this stops the os.pull() from running indefinitly
-	local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+    if event == "modem_message" then
+        if side == "right" then -- from up signal message
+            if message == "caution" then
+                updateBlock("caution")
+            elseif message == "clear" then
+                updateBlock("clear")
+            end
+        elseif side == "left" and message == "Request" then -- from down signal when starting
+            signalInterface.writeText("sending status" .. state[1])
+            os.sleep(1)
+            if state[1] == "caution" or state[1] == "clear" then
+                modemDown.transmit(2, 500, "clear")
+            elseif state[1] == "occupied" then
+                modemDown.transmit(2, 500, "caution")
+            end
+        end
+    end
+end
 
-	if event == "modem_message" then
-		
-		if side == "right" then -- from up signal message
-			
-			if message == "caution" then
+-- Check if train is passing the signal
+local function trainCheck()
 
-				updateBlock("caution")
-				
-			elseif message == "clear" then
+    -- If redstone signal is on (train is passing the signal)
+    if redstone.getAnalogInput("top") > 0 then
 
-				updateBlock("clear")
+        -- Wait until train passed the signal
+        repeat
+            os.sleep(0.1)
+        until redstone.getAnalogInput("top") == 0
 
-			end
-		
-		elseif side == "left" and message == "Request" then -- from down signal when starting
+        -- Update block to show it's occupied
+        updateBlock("occupied")
 
-			signalInterface.writeText("sending status" .. state[1])
-
-			os.sleep(1)
-			
-			if state[1] == "caution" or state[1] == "clear" then
-
-				
-				modemDown.transmit(2, 500, "clear")
-
-			elseif state[1] == "occupied" then
-				
-				modemDown.transmit(2, 500, "caution")
-
-			end
-		end
-	end
+    end
 end
 
 -- startup

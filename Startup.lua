@@ -4,19 +4,25 @@ local files = {"Signals/Moduals/signalInterface.lua", "Junction/FFSS to MM.lua",
 local dir_find = {"Signals/", "Junction/"}
 
 
-local function del_dirs()
+-- Function to delete directories
+function del_dirs()
+    -- Iterate through each file in the files array
     for w in ipairs(files) do
         
+        -- Check if the file exists
         if fs.exists(files[w]) then
             
+            -- Delete the file
             fs.delete(files[w])
 
         end
     end
 end
 
-local function download(file_download)
+-- Function to download and execute a file
+function download(file_download)
 
+    -- Delete existing directories
     del_dirs()
 
     -- Download the file
@@ -24,12 +30,16 @@ local function download(file_download)
     local content = handle.readAll()
     handle.close()
 
+    -- Iterate through directories to find
     for q = 1, 2 do
         
+        -- Find directory in file path
         local startPos, endPos = string.find(file_download, dir_find[q])
 
+        -- If directory found
         if startPos then
             
+            -- If directory exists
             if fs.exists(dir_find[q]) then
 
                 -- Save the file
@@ -39,12 +49,14 @@ local function download(file_download)
 
             else
 
+                -- If last directory, create it
                 if dir_find[q] == dir_find[2] then
 
                     fs.makeDir(dir_find[2])
 
                 else
 
+                    -- Create first directory
                     fs.makeDir(dir_find[1] .. "Moduals/")
 
                 end
@@ -58,20 +70,22 @@ local function download(file_download)
         end
     end
 
+    -- If Signal directory exists
     if fs.exists(dir_find[1]) then
 
-        -- Download the file
+        -- Download the Signal Interface
         handle = http.get(repo_main .. files[1])
         content = handle.readAll()
         handle.close()
 
-        -- Save the file
+        -- Save the Signal Interface
         local fileHandle = fs.open(files[1], "w")
         fileHandle.write(content)
         fileHandle.close()
     
     end
 
+    -- Execute the downloaded file
     shell.execute(file_download)
 end
 

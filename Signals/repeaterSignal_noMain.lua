@@ -1,16 +1,18 @@
 -- Repeater Signal
+-- This signal cannot controled manually.
 
 os.loadAPI("Signals/Moduals/signalInterface.lua")
 
 -- variables
-digitalList = {"Locking", "Clear", "Caution", "Signal"}
+local digitalList = {"Locking", "Clear", "Caution", "Signal"}
+local vers = "Signal Version: 0.1.0"
 
 -- wraping peripherals
-digitalController = peripheral.wrap("bottom") -- CC and RC Interface
+local digitalController = peripheral.wrap("bottom") -- CC and RC Interface
 
-modemMain = peripheral.wrap("back")
-modemDown = peripheral.wrap("left")
-modemUp = peripheral.wrap("right")
+local modemMain = peripheral.wrap("back")
+local modemDown = peripheral.wrap("left")
+local modemUp = peripheral.wrap("right")
 
 -- ports
 modemMain.open(5) -- transmit between signal center and signal
@@ -19,91 +21,92 @@ modemUp.open(2)   -- transmit to up signal
 
 -- next few function control the RC interface with the block state
 
-function caution() -- set block as caution
-   
-	digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
-	digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
-	digitalController.setAspect(digitalList[3], 5) -- RS on: 2 speed
-	digitalController.setAspect(digitalList[4], 3) -- Signal Orange/Yellow
+-- Set block as caution
+function caution()
+    -- RS on: Locking Track: allow through
+    digitalController.setAspect(digitalList[1], 5)
+    -- RS off: 4 speed
+    digitalController.setAspect(digitalList[2], 1)
+    -- RS on: 2 speed
+    digitalController.setAspect(digitalList[3], 5)
+    -- Signal Orange/Yellow
+    digitalController.setAspect(digitalList[4], 3)
 
-	signalInterface.SignalClear(colors.lightGray)
-	signalInterface.SignalCaution(colors.orange)
-
+    -- Clear signals, set caution, and clear danger
+    signalInterface.SignalClear(colors.lightGray)
+    signalInterface.SignalCaution(colors.orange)
+    signalInterface.SignalDanger(colors.lightGray)
 end
 
-function clear() -- set block as clear
+-- Function to clear block
+local function clear()
+    -- Set RS on: Locking Track
+    digitalController.setAspect(digitalList[1], 5)
+    -- Set RS on: 4 speed
+    digitalController.setAspect(digitalList[2], 5)
+    -- Set RS off: 2 speed
+    digitalController.setAspect(digitalList[3], 1)
+    -- Set signal to green
+    digitalController.setAspect(digitalList[4], 1)
 
-	digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
-	digitalController.setAspect(digitalList[2], 5) -- RS on: 4 speed
-	digitalController.setAspect(digitalList[3], 1) -- RS off: 2 speed
-	digitalController.setAspect(digitalList[4], 1) -- Signal Green
-
-	signalInterface.SignalClear(colors.green)
-	signalInterface.SignalCaution(colors.lightGray)
-
+    -- Clear signal
+    signalInterface.SignalClear(colors.green)
+    -- Set caution signal to light gray
+    signalInterface.SignalCaution(colors.lightGray)
+    -- Set danger signal to light gray
+    signalInterface.SignalDanger(colors.lightGray)
 end
 
--- this tells the computer what block state to be in
-function updateBlock(stateChange)
+-- Function to update block state
+local function updateBlock(stateChange)
 
-	if stateChange == "caution" then
+    -- Check for occupied state
+    if stateChange == "occupied" then -- Not needed for this type of signal but will stay
+        occupied() 
+        modemDown.transmit(2, 500, "caution") -- send state to down signal
+        state = {"occupied", 1, 1}
 
-		caution()
-		modemDown.transmit(2, 500, "clear") -- send the state the down signal needs to be
-		state = {"caution", 1, 1}
+    -- Check for caution state
+    elseif stateChange == "caution" then
+        caution()
+        modemDown.transmit(2, 500, "clear") -- send state to down signal
+        state = {"caution", 1, 1}
 
-	elseif stateChange == "clear" then
-		
-		clear()
-		state = {"clear", 0, 0}
+    -- Check for clear state
+    elseif stateChange == "clear" then
+        clear()
+        state = {"clear", 0, 0}
 
-	end
+    end
 end
 
--- see if train has occupied the block
+local function messageCheck()
+    os.startTimer(0.1) -- stop os.pull() indefinitely
+    local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
 
-function messageCheck()
-
-	os.startTimer(0.1) -- this stops the os.pull() from running indefinitly
-	event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
-
-	if event == "modem_message" then
-		
-		if side == "right" then -- from up signal message
-			
-			if message == "caution" then
-
-				updateBlock("caution")
-				
-			elseif message == "clear" then
-
-				updateBlock("clear")
-
-			end
-		
-		elseif side == "left" and message == "Request" then -- from down signal when starting
-
-			signalInterface.writeText("sending status" .. state[1])
-
-			os.sleep(1)
-			
-			if state[1] == "caution" or state[1] == "clear" then
-
-				
-				modemDown.transmit(2, 500, "clear")
-
-			elseif state[1] == "occupied" then
-				
-				modemDown.transmit(2, 500, "caution")
-
-			end
-		end
-	end
+    if event == "modem_message" then
+        if side == "right" then -- from up signal message
+            if message == "caution" then
+                updateBlock("caution")
+            elseif message == "clear" then
+                updateBlock("clear")
+            end
+        elseif side == "left" and message == "Request" then -- from down signal when starting
+            signalInterface.writeText("sending status" .. state[1])
+            os.sleep(1)
+            if state[1] == "caution" or state[1] == "clear" then
+                modemDown.transmit(2, 500, "clear")
+            elseif state[1] == "occupied" then
+                modemDown.transmit(2, 500, "caution")
+            end
+        end
+    end
 end
 
 -- startup
 
 signalInterface.Initiation()
+signalInterface.versionWrite(vers)
 
 state = {"caution", 1, 1}
 updateBlock("caution")
@@ -112,7 +115,7 @@ os.sleep(2)
 signalInterface.writeText("Initiation Complete")
 
 os.sleep(2)
-id = os.startTimer(5)
+local id = os.startTimer(5)
 signalInterface.writeText("Waiting for inital signal state, from up signal. (5 secs max)")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
@@ -152,6 +155,7 @@ end
 -- main loop
 while true do
 
+	trainCheck()
 	messageCheck()
 
 end
