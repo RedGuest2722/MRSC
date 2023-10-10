@@ -79,26 +79,23 @@ local function clear()
     signalInterface.SignalDanger(colors.lightGray)
 end
 
--- Function to update block state
 local function updateBlock(stateChange)
+    -- Map stateChange to appropriate function and message for down signal
+    local stateMap = {
+        occupied = {func = occupied, message = "caution"},
+        caution = {func = caution, message = "clear"},
+        clear = {func = clear}
+    }
 
-    -- Check for occupied state
-    if stateChange == "occupied" then
-        occupied() 
-        modemDown.transmit(2, 500, "caution") -- send state to down signal
-        state = {"occupied", 1, 1}
+    -- Execute appropriate function based on the stateChange
+    stateMap[stateChange].func()
 
-    -- Check for caution state
-    elseif stateChange == "caution" then
-        caution()
-        modemDown.transmit(2, 500, "clear") -- send state to down signal
-        state = {"caution", 1, 1}
-
-    -- Check for clear state
-    elseif stateChange == "clear" then
-        clear()
-        state = {"clear", 0, 0}
-
+        if stateChange ~= "clear" then
+        -- Send state to down signal
+        modemDown.transmit(2, 500, stateMap[stateChange].message)
+        state = {stateChange, 1, 1}
+    else
+        state = {stateChange, 0, 0}
     end
 end
 
@@ -108,10 +105,8 @@ local function messageCheck()
 
     if event == "modem_message" then
         if side == "right" then -- from up signal message
-            if message == "caution" then
-                updateBlock("caution")
-            elseif message == "clear" then
-                updateBlock("clear")
+            if message == "caution" or message == "clear" then
+                updateBlock(message)
             end
         elseif side == "left" and message == "Request" then -- from down signal when starting
             signalInterface.writeText("sending status" .. state[1])
