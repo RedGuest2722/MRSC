@@ -30,7 +30,7 @@ os.sleep(1)
 
 if http.checkURL(repo_main) == false then
     
-    error("Can't reach the repository.")
+    error("Can't reach the repository. \nExited MRSC Program Download.")
 
 end
 

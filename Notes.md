@@ -13,3 +13,8 @@
 -- cable run underneath center for main control/display
 
 -- Redstone is shortened to RS
+
+
+Need to do:
+
+-- 

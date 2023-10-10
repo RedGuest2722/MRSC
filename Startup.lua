@@ -89,6 +89,12 @@ function download(file_download)
     shell.execute(file_download)
 end
 
+if http.checkURL(repo_main) == false then
+
+    print("unable to reach the repository for update")
+
+end
+
 for e in ipairs(files) do
 
     num = e + 1
