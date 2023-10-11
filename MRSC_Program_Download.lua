@@ -114,14 +114,12 @@ end
 print("Files downloaded")
 print("")
 
-os.sleep(0.5)
-
 print("would you like to start the program (yes/no)")
 
 local start = string.lower(read())
 
 if start == "yes" then
     
-    shell.execute("Startup.lua")
+    shell.execute("startup.lua")
 
 end
