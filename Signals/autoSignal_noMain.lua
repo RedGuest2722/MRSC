@@ -5,7 +5,7 @@ os.loadAPI("Signals/Moduals/signalInterface.lua")
 
 -- variables
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
-local vers = "Signal Version: 0.1.0"
+local vers = "0.1.0"
 
 -- wraping peripherals
 local digitalController = peripheral.wrap("bottom") -- CC and RC Interface
@@ -140,7 +140,7 @@ end
 -- startup
 
 signalInterface.Initiation()
-signalInterface.versionWrite(vers)
+signalInterface.versionWrite("Signal Version:" .. vers)
 
 state = {"occupied", 1, 1}
 updateBlock("occupied")

@@ -8,7 +8,7 @@ local xMax, yMax = term.getSize()
 local xMid = math.floor(6 * (xMax / 7))  -- Seperation for Text and Signal Display
 
 -- Variables
-local vers = "Interface Version: 0.1.0"
+local vers = "0.1.0"
 
 local q = 0
 local w = 0
@@ -163,7 +163,7 @@ function Initiation()
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
     term.setCursorPos((xMax - string.len(vers)), (yMax + 1))
-    term.write(vers)
+    term.write("Interface Version:" .. vers)
 
     SignalInitiation()
 
