@@ -12,7 +12,6 @@ local vers = "0.1.0"
 
 local q = 0
 local w = 0
-local e = xMid + 1
 
 yMax = yMax - 1
 
@@ -21,10 +20,8 @@ local textLine = 2
 -- Signal drawing (Right Side)
 
 local xSigMin = xMid + 1
-local ySigMin = 2
 
 local xSigMax = xMax - 1
-local ySigMax = yMax
 
 -- Signal Init: -- Signal size 7 x 4
 
@@ -34,7 +31,7 @@ local yStopClear = yMax - 1
 
 -- Signals
 
-function SignalClear(color)
+function Signal_Clear(color)
 
     term.setBackgroundColor(color)
     local t = 13
@@ -59,7 +56,7 @@ function SignalClear(color)
     end
 end
 
-function SignalCaution(color)
+function Signal_Caution(color)
 
     term.setBackgroundColor(color)
     local u = 8
@@ -84,7 +81,7 @@ function SignalCaution(color)
     end
 end
 
-function SignalDanger(color)
+function Signal_Danger(color)
 
     term.setBackgroundColor(color)
     local o = 3
@@ -111,7 +108,7 @@ end
 
 -- only called from Initiation
 
-function SignalInitiation()
+local function Signal_Initiation()
 
     -- Signal Setting: Clear, Caution, Danger
 
@@ -165,7 +162,7 @@ function Initiation()
     term.setCursorPos((xMax - string.len(vers)), (yMax + 1))
     term.write("Interface Version: " .. vers)
 
-    SignalInitiation()
+    Signal_Initiation()
 
 end
 
@@ -220,7 +217,7 @@ local function splitMessage(message)
 
 end
 
-local function clearText()
+local function clear_Text()
 
     term.setBackgroundColor(colors.black)
 
@@ -279,7 +276,7 @@ function Write_Text(messageRecieved, fontColor, backgroundColor)
 
     if textLine > 13 then
         
-        clearText()
+        clear_Text()
         textLine = 2
 
     end
