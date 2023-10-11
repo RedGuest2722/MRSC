@@ -16,7 +16,7 @@ local modemUp = peripheral.wrap("right")
 
 -- ports
 modemMain.open(5) -- transmit between signal center and signal
-modemDown.open(2) -- transmit to down signal
+modemDown.open(2) -- transmit to down signal.
 modemUp.open(2)   -- transmit to up signal
 
 -- next few function control the RC interface with the block state

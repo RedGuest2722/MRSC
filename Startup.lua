@@ -1,4 +1,4 @@
-local repo_main = "https://raw.githubusercontent.com/RedGuest2722/MRSC/main/"
+local repo_main = "https://raw.githubusercontent.com/RedGuest2722/MRSC/development/"
 
 local files = {"Signals/Moduals/signalInterface.lua", "Junction/FFSS to MM.lua", "Junction/SFFS to MM.lua", "Signals/autoSignal_noMain.lua", "Signals/repeaterSignal_noMain.lua", "Signals/multiSignal_noMain.lua"}
 local dir_find = {"Signals/", "Junction/"}
@@ -20,79 +20,96 @@ local function del_dirs()
 end
 
 -- Function to download and execute a file
-local function download(file_download)
+local function download(file_download, Internet)
 
-    -- Delete existing directories
-    del_dirs()
+    if Internet == true then
+    
+        -- Delete existing directories
+        del_dirs()
 
-    -- Download the file
-    local handle = http.get(repo_main .. file_download)
-    local content = handle.readAll()
-    handle.close()
+        -- Download the file
+        local handle = http.get(repo_main .. file_download)
+        local content = handle.readAll()
+        handle.close()
 
-    -- Iterate through directories to find
-    for q = 1, 2 do
-        
-        -- Find directory in file path
-        local startPos, endPos = string.find(file_download, dir_find[q])
-
-        -- If directory found
-        if startPos then
+        -- Iterate through directories to find
+        for q = 1, 2 do
             
-            -- If directory exists
-            if fs.exists(dir_find[q]) then
+            -- Find directory in file path
+            local startPos, endPos = string.find(file_download, dir_find[q])
 
-                -- Save the file
-                local fileHandle = fs.open(file_download, "w")
-                fileHandle.write(content)
-                fileHandle.close()
+            -- If directory found
+            if startPos then
+                
+                -- If directory exists
+                if fs.exists(dir_find[q]) then
 
-            else
-
-                -- If last directory, create it
-                if dir_find[q] == dir_find[2] then
-
-                    fs.makeDir(dir_find[2])
+                    -- Save the file
+                    local fileHandle = fs.open(file_download, "w")
+                    fileHandle.write(content)
+                    fileHandle.close()
 
                 else
 
-                    -- Create first directory
-                    fs.makeDir(dir_find[1] .. "Moduals/")
+                    -- If last directory, create it
+                    if dir_find[q] == dir_find[2] then
+
+                        fs.makeDir(dir_find[2])
+
+                    else
+
+                        -- Create first directory
+                        fs.makeDir(dir_find[1] .. "Moduals/")
+
+                    end
+
+                    -- Save the file
+                    local fileHandle = fs.open(file_download, "w")
+                    fileHandle.write(content)
+                    fileHandle.close()
 
                 end
-
-                -- Save the file
-                local fileHandle = fs.open(file_download, "w")
-                fileHandle.write(content)
-                fileHandle.close()
-
             end
         end
+
+        -- If Signal directory exists
+        if fs.exists(dir_find[1]) then
+
+            -- Download the Signal Interface
+            handle = http.get(repo_main .. files[1])
+            content = handle.readAll()
+            handle.close()
+
+            -- Save the Signal Interface
+            local fileHandle = fs.open(files[1], "w")
+            fileHandle.write(content)
+            fileHandle.close()
+        
+        end
+
+        -- Execute the downloaded file
+        shell.execute(file_download)
+
+    else
+
+        shell.execute(file_download)
+
     end
-
-    -- If Signal directory exists
-    if fs.exists(dir_find[1]) then
-
-        -- Download the Signal Interface
-        handle = http.get(repo_main .. files[1])
-        content = handle.readAll()
-        handle.close()
-
-        -- Save the Signal Interface
-        local fileHandle = fs.open(files[1], "w")
-        fileHandle.write(content)
-        fileHandle.close()
-    
-    end
-
-    -- Execute the downloaded file
-    shell.execute(file_download)
 end
 
 if http.checkURL(repo_main) == false then
 
     print("unable to reach the repository for update")
+    os.sleep(0.5)
+    print("continuing without updating.")
+    os.sleep(3)
 
+    Updated = false
+
+else
+
+    Updated = true
+    
 end
 
 for e in ipairs(files) do
@@ -107,9 +124,7 @@ for e in ipairs(files) do
 
     elseif fs.exists(files[num]) then
 
-        download(files[num])
-
-        break
+        download(files[num], Updated)
   
     end  
 end
