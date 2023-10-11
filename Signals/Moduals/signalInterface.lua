@@ -159,7 +159,7 @@ function Initiation()
 
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
-    term.setCursorPos((xMax - string.len(vers)), (yMax + 1))
+    term.setCursorPos((xMax - (string.len(vers) + 18)), (yMax + 1))
     term.write("Interface Version: " .. vers)
 
     Signal_Initiation()
@@ -298,7 +298,7 @@ function Version_Write(signalVers)
 
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
-    term.setCursorPos(2, (yMax + 1))
+    term.setCursorPos(1, (yMax + 1))
     term.write(signalVers)
 
 end

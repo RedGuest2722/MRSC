@@ -6,6 +6,7 @@ os.loadAPI("Signals/Moduals/signalInterface.lua")
 -- variables
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
 local vers = "0.1.0"
+local timer_num = math.random(1, 5)
 
 -- wraping peripherals
 local digitalController = peripheral.wrap("bottom") -- CC and RC Interface
@@ -147,7 +148,7 @@ os.sleep(2)
 signalInterface.Write_Text("Initiation Complete")
 
 os.sleep(2)
-local id = os.startTimer(5)
+local id = os.startTimer(timer_num)
 signalInterface.Write_Text("Waiting for inital signal state, from up signal. (5 secs max)")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
