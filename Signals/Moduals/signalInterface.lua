@@ -1,7 +1,5 @@
 -- Signal Interface Program
 
-local signalInterface
-
 term.clear()
 
 -- Init: Variables

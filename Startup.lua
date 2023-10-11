@@ -125,6 +125,8 @@ for e in ipairs(files) do
     elseif fs.exists(files[num]) then
 
         download(files[num], Updated)
+
+        break
   
     end  
 end
