@@ -297,7 +297,7 @@ local function writeText(messageRecieved, fontColor, backgroundColor)
     end
 end
 
-local function versionWrite(signalVers)
+function Version_Write(signalVers)
 
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
