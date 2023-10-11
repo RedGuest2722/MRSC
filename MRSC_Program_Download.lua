@@ -27,6 +27,7 @@ os.sleep(1)
 
 print("All files will automatically update on startup.")
 os.sleep(1)
+print("")
 
 if http.checkURL(repo_main) == false then
     
@@ -39,6 +40,7 @@ print("2: For Junctions")
 print("3: For Stations (NIOP)")
 
 selection = tostring(read())
+print("")
 
 if selection == "1" then
 
@@ -74,6 +76,7 @@ else
 
 end
 
+print("")
 download("Startup.lua")
 
 if selection == "1" then
@@ -120,6 +123,7 @@ elseif selection == "2" then
 end
 
 print("Files downloaded")
+print("")
 
 os.sleep(0.5)
 

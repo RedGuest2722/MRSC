@@ -140,7 +140,7 @@ end
 -- startup
 
 signalInterface.Initiation()
-signalInterface.versionWrite("Signal Version:" .. vers)
+signalInterface.versionWrite("Signal Version: " .. vers)
 
 state = {"occupied", 1, 1}
 updateBlock("occupied")

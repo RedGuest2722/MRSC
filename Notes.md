@@ -16,9 +16,7 @@
 
 -- Redstone is shortened to RS
 
--- use a Digital reciever for junctions regarding dectors
--- use comp IDs for transmitting signal mode.
--- hold signal ahead data to transmit to previous for allowing across junction
+-- hold signal ahead data to transmit to previous for allowing across junction on exit computer
 
 Need to do:
 
