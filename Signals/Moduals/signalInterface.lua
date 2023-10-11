@@ -112,9 +112,9 @@ local function Signal_Initiation()
 
     -- Signal Setting: Clear, Caution, Danger
 
-    SignalClear(colors.lightGray)
-    SignalCaution(colors.lightGray)
-    SignalDanger(colors.lightGray)
+    Signal_Clear(colors.lightGray)
+    Signal_Caution(colors.lightGray)
+    Signal_Danger(colors.lightGray)
 
 end
 
