@@ -9,6 +9,15 @@
 
 -- redstone aspect = red(5) then redstone torch is on
 
-
 -- main mode comms (subareas? for junctions):
 -- cable run underneath center for main control/display
+
+-- Redstone is shortened to RS
+
+-- use a Digital reciever for junctions regarding dectors
+-- use comp IDs for transmitting signal mode.
+-- hold signal ahead data to transmit to previous for allowing across junction
+
+Need to do:
+
+-- 

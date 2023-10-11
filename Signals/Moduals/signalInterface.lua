@@ -10,6 +10,7 @@ local xMax, yMax = term.getSize()
 local xMid = math.floor(6 * (xMax / 7))  -- Seperation for Text and Signal Display
 
 -- Variables
+local vers = "Interface Version: 0.1.0"
 
 local q = 0
 local w = 0
@@ -140,9 +141,6 @@ function Initiation()
         term.setCursorPos(q, yMax)
         term.write(" ") -- Bottem 1
 
-        term.setCursorPos(q, (yMax + 1))
-        term.write(" ") -- Bottem 2
-
         q = q + 1 -- Next
 
     end
@@ -163,6 +161,11 @@ function Initiation()
         w = w + 1 -- Next
 
     end
+
+    term.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.setCursorPos((xMax - string.len(vers)), (yMax + 1))
+    term.write(vers)
 
     SignalInitiation()
 
@@ -294,4 +297,13 @@ function writeText(messageRecieved, fontColor, backgroundColor)
         table.remove(messageConRec, 1)
 
     end
+end
+
+function versionWrite(signalVers)
+
+    term.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.setCursorPos(2, (yMax + 1))
+    term.write(signalVers)
+
 end
