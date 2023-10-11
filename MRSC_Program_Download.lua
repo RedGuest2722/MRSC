@@ -77,7 +77,7 @@ else
 end
 
 print("")
-download("Startup.lua")
+download("startup.lua")
 
 if selection == "1" then
 
