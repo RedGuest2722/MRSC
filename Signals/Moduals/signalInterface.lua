@@ -245,7 +245,7 @@ local function clearText()
 
 end
 
-local function writeText(messageRecieved, fontColor, backgroundColor)
+function Write_Text(messageRecieved, fontColor, backgroundColor)
 
     -- window min 2, 2
     -- window max 37, 17

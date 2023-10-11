@@ -37,9 +37,9 @@ local function occupied()
     digitalController.setAspect(digitalList[4], 5)
 
     -- Clear, Caution, and Danger signals
-    signalInterface.SignalClear(colors.lightGray)
-    signalInterface.SignalCaution(colors.lightGray)
-    signalInterface.SignalDanger(colors.red)
+    signalInterface.Signal_Clear(colors.lightGray)
+    signalInterface.Signal_Caution(colors.lightGray)
+    signalInterface.Signal_Danger(colors.red)
 
 end
 
@@ -54,10 +54,10 @@ local function caution()
     -- Signal Orange/Yellow
     digitalController.setAspect(digitalList[4], 3)
 
-    -- Clear signals, set caution, and clear danger
-    signalInterface.SignalClear(colors.lightGray)
-    signalInterface.SignalCaution(colors.orange)
-    signalInterface.SignalDanger(colors.lightGray)
+    -- Clear, Caution, and Danger signals
+    signalInterface.Signal_Clear(colors.lightGray)
+    signalInterface.Signal_Caution(colors.orange)
+    signalInterface.Signal_Danger(colors.lightGray)
 end
 
 -- Function to clear block
@@ -71,12 +71,10 @@ local function clear()
     -- Set signal to green
     digitalController.setAspect(digitalList[4], 1)
 
-    -- Clear signal
-    signalInterface.SignalClear(colors.green)
-    -- Set caution signal to light gray
-    signalInterface.SignalCaution(colors.lightGray)
-    -- Set danger signal to light gray
-    signalInterface.SignalDanger(colors.lightGray)
+    -- Clear, Caution, and Danger signals
+    signalInterface.Signal_Clear(colors.lime)
+    signalInterface.Signal_Caution(colors.lightGray)
+    signalInterface.Signal_Danger(colors.lightGray)
 end
 
 local function updateBlock(stateChange)
@@ -146,11 +144,11 @@ state = {"occupied", 1, 1}
 updateBlock("occupied")
 
 os.sleep(2)
-signalInterface.writeText("Initiation Complete")
+signalInterface.Write_Text("Initiation Complete")
 
 os.sleep(2)
 local id = os.startTimer(5)
-signalInterface.writeText("Waiting for inital signal state, from up signal. (5 secs max)")
+signalInterface.Write_Text("Waiting for inital signal state, from up signal. (5 secs max)")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 repeat
@@ -161,9 +159,9 @@ until replyChannel == 500 or event == "timer"
 
 if event == "modem_message" and side_id == "right" then -- from up signal message (startup)
 
-	signalInterface.writeText("message received")
+	signalInterface.Write_Text("message received")
 	os.sleep(0.5)
-	signalInterface.writeText("Changing to " .. message)
+	signalInterface.Write_Text("Changing to " .. message)
 	os.cancelTimer(id)
 			
 	if message == "caution" then
@@ -180,9 +178,9 @@ if event == "modem_message" and side_id == "right" then -- from up signal messag
 
 elseif event == "timer" then
 
-	signalInterface.writeText("no message received")
+	signalInterface.Write_Text("no message received")
 	os.sleep(0.5)
-	signalInterface.writeText("staying as Occupied")
+	signalInterface.Write_Text("staying as Occupied")
 
 end
 
