@@ -150,7 +150,7 @@ signalInterface.writeText("Initiation Complete")
 
 os.sleep(2)
 local id = os.startTimer(5)
-signalInterface.writeText("Waiting for inital signal state, from up signal. (5 secs max)")
+signalInterface.writeText("Waiting for inital signal state, from up signal. (" .. timerTime .. " secs max)")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 repeat
