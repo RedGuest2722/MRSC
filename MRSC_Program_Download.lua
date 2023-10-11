@@ -7,7 +7,7 @@ local files = {"Signals/Moduals/signalInterface.lua", "Junction/FFSS to MM.lua",
 local version = "0.0.1"
 
 -- Download and save file
-function download(file)
+local function download(file)
     -- Get file from repo
     local handle = http.get(repo_main .. file)
     local content = handle.readAll()

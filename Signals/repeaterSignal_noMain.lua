@@ -22,7 +22,7 @@ modemUp.open(2)   -- transmit to up signal
 -- next few function control the RC interface with the block state
 
 -- Set block as caution
-function caution()
+local function caution()
     -- RS on: Locking Track: allow through
     digitalController.setAspect(digitalList[1], 5)
     -- RS off: 4 speed
@@ -62,9 +62,9 @@ local function updateBlock(stateChange)
 
     -- Check for occupied state
     if stateChange == "occupied" then -- Not needed for this type of signal but will stay
-        occupied() 
-        modemDown.transmit(2, 500, "caution") -- send state to down signal
-        state = {"occupied", 1, 1}
+        -- occupied() 
+        -- modemDown.transmit(2, 500, "caution") -- send state to down signal
+        -- state = {"occupied", 1, 1}
 
     -- Check for caution state
     elseif stateChange == "caution" then
@@ -121,7 +121,7 @@ modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 repeat
 
-	event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+	local event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
 
 until replyChannel == 500 or event == "timer"
 
@@ -155,7 +155,6 @@ end
 -- main loop
 while true do
 
-	trainCheck()
 	messageCheck()
 
 end

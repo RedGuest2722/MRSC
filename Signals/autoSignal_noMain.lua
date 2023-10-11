@@ -44,7 +44,7 @@ local function occupied()
 end
 
 -- Set block as caution
-function caution()
+local function caution()
     -- RS on: Locking Track: allow through
     digitalController.setAspect(digitalList[1], 5)
     -- RS off: 4 speed

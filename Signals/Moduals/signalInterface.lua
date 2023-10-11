@@ -171,9 +171,9 @@ function Initiation()
 
 end
 
-function splitMessage(message)
+local function splitMessage(message)
 
-    words = {}
+    local words = {}
 
     for word in string.gmatch(message, "[^%s]+") do
 
@@ -222,7 +222,7 @@ function splitMessage(message)
 
 end
 
-function clearText()
+local function clearText()
 
     term.setBackgroundColor(colors.black)
 
@@ -247,7 +247,7 @@ function clearText()
 
 end
 
-function writeText(messageRecieved, fontColor, backgroundColor)
+local function writeText(messageRecieved, fontColor, backgroundColor)
 
     -- window min 2, 2
     -- window max 37, 17
@@ -299,7 +299,7 @@ function writeText(messageRecieved, fontColor, backgroundColor)
     end
 end
 
-function versionWrite(signalVers)
+local function versionWrite(signalVers)
 
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)

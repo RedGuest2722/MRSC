@@ -21,7 +21,7 @@ modemUp.open(2)   -- transmit to up signal
 
 -- next few function control the RC interface with the block state
 
-function occupied() -- set block as occupied
+local function occupied() -- set block as occupied
 	
 	digitalController.setAspect(digitalList[1], 1) -- RS off: Locking Track: allow through
 	digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
@@ -34,7 +34,7 @@ function occupied() -- set block as occupied
 	
 end
 
-function caution() -- set block as caution
+local function caution() -- set block as caution
    
 	digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
 	digitalController.setAspect(digitalList[2], 1) -- RS off: 4 speed
@@ -47,7 +47,7 @@ function caution() -- set block as caution
 
 end
 
-function clear() -- set block as clear
+local function clear() -- set block as clear
 
 	digitalController.setAspect(digitalList[1], 5) -- RS on: Locking Track: allow through
 	digitalController.setAspect(digitalList[2], 5) -- RS on: 4 speed
@@ -61,7 +61,7 @@ function clear() -- set block as clear
 end
 
 -- this tells the computer what block state to be in
-function updateBlock(stateChange)
+local function updateBlock(stateChange)
 
 	if stateChange == "occupied" then
 
@@ -84,7 +84,7 @@ function updateBlock(stateChange)
 end
 
 -- see if train has occupied the block
-function trainCheck()
+local function trainCheck()
 	
 	if redstone.getAnalogInput("top") > 0 then
 
@@ -99,7 +99,7 @@ function trainCheck()
 	end
 end
 
-function messageCheck()
+local function messageCheck()
 
 	os.startTimer(0.1) -- this stops the os.pull() from running indefinitly
 	local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
@@ -156,7 +156,7 @@ modemUp.transmit(2, 2, "Request") -- request block state from up signal
 
 repeat
 
-	event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+	local event, side_id, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
 
 until replyChannel == 500 or event == "timer"
 

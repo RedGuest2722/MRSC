@@ -5,7 +5,7 @@ local dir_find = {"Signals/", "Junction/"}
 
 
 -- Function to delete directories
-function del_dirs()
+local function del_dirs()
     -- Iterate through each file in the files array
     for w in ipairs(files) do
         
@@ -20,7 +20,7 @@ function del_dirs()
 end
 
 -- Function to download and execute a file
-function download(file_download)
+local function download(file_download)
 
     -- Delete existing directories
     del_dirs()
@@ -97,7 +97,7 @@ end
 
 for e in ipairs(files) do
 
-    num = e + 1
+    local num = e + 1
 
     if num == #files then
 

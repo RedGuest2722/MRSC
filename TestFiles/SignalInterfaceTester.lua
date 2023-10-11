@@ -1,3 +1,7 @@
+-- Signal Interface Tester Program
+
+local signalInterface
+
 term.clear()
 
 -- Init: Variables
@@ -6,6 +10,7 @@ local xMax, yMax = term.getSize()
 local xMid = math.floor(6 * (xMax / 7))  -- Seperation for Text and Signal Display
 
 -- Variables
+local vers = "Interface Version: 0.1.0"
 
 local q = 0
 local w = 0
@@ -29,10 +34,146 @@ local yStopDanger = yMax - 11
 local yStopCaution = yMax - 6
 local yStopClear = yMax - 1
 
+-- Signals
 
-function splitMessage(message)
+function SignalClear(color)
 
-    words = {}
+    term.setBackgroundColor(color)
+    local t = 13
+
+    -- clear
+
+    while t ~= yStopClear do
+
+        local r = xSigMin + 1
+
+        while r ~= xSigMax do
+            
+            term.setCursorPos(r, t)
+            term.write(" ")
+            
+            r = r + 1 -- Next
+
+        end
+        
+        t = t + 1 -- Next
+
+    end
+end
+
+function SignalCaution(color)
+
+    term.setBackgroundColor(color)
+    local u = 8
+
+    -- caution
+
+    while u ~= yStopCaution do
+
+        local y = xSigMin + 1
+
+        while y ~= xSigMax do
+            
+            term.setCursorPos(y, u)
+            term.write(" ")
+
+            y = y + 1 -- Next
+
+        end
+
+        u = u + 1 -- Next
+
+    end
+end
+
+function SignalDanger(color)
+
+    term.setBackgroundColor(color)
+    local o = 3
+
+    -- Danger
+
+    while o ~= yStopDanger do
+
+        local i = xSigMin + 1
+
+        while i ~= xSigMax do
+            
+            term.setCursorPos(i, o)
+            term.write(" ")
+
+            i = i + 1 -- Next
+
+        end
+
+        o = o + 1 -- Next
+
+    end
+end
+
+-- only called from Initiation
+
+function SignalInitiation()
+
+    -- Signal Setting: Clear, Caution, Danger
+
+    SignalClear(colors.lightGray)
+    SignalCaution(colors.lightGray)
+    SignalDanger(colors.lightGray)
+
+end
+
+-- call on Start
+
+function Initiation()
+
+    -- Borders: Top, Bottem, Left, Right, Middle ,
+
+    term.setBackgroundColor(colors.gray)
+
+    -- Top, Bottem
+
+    while q ~= (xMax + 1) do
+        
+        term.setCursorPos(q, 1)
+        term.write(" ") -- Top
+
+        term.setCursorPos(q, yMax)
+        term.write(" ") -- Bottem 1
+
+        q = q + 1 -- Next
+
+    end
+
+    -- Left, Right, Middle
+
+    while w ~= (yMax + 1) do
+        
+        term.setCursorPos(1, w)
+        term.write(" ") -- Left
+
+        term.setCursorPos(xMid, w)
+        term.write(" ") -- Middle
+
+        term.setCursorPos(xMax, w)
+        term.write(" ") -- Right
+
+        w = w + 1 -- Next
+
+    end
+
+    term.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.setCursorPos((xMax - string.len(vers)), (yMax + 1))
+    term.write(vers)
+
+    SignalInitiation()
+
+end
+
+local function splitMessage(message)
+
+    local words = {}
 
     for word in string.gmatch(message, "[^%s]+") do
 
@@ -81,7 +222,7 @@ function splitMessage(message)
 
 end
 
-function clearText()
+local function clearText()
 
     term.setBackgroundColor(colors.black)
 
@@ -106,7 +247,7 @@ function clearText()
 
 end
 
-function writeText(messageRecieved, fontColor, backgroundColor)
+local function writeText(messageRecieved, fontColor, backgroundColor)
 
     -- window min 2, 2
     -- window max 37, 17
@@ -158,8 +299,11 @@ function writeText(messageRecieved, fontColor, backgroundColor)
     end
 end
 
-local mesasge = ("Waiting for signal state to be in from up signal Else will remain as Occupied (red). (5 secs max)")
+local function versionWrite(signalVers)
 
-writeText(mesasge)
+    term.setBackgroundColor(colors.black)
+    term.setTextColor(colors.white)
+    term.setCursorPos(2, (yMax + 1))
+    term.write(signalVers)
 
-os.sleep(5)
+end
