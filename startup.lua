@@ -6,7 +6,8 @@ local files = {
     "Signals/autoSignal_noMain.lua",
     "Signals/repeaterSignal_noMain.lua",
     "Signals/multiSignal_noMain.lua",
-    "Junction/LineIdentifier.lua"}
+    "Junction/LineIdentifier.lua"
+}
 
 local dir_find = {"Signals/", "Junction/"}
 
