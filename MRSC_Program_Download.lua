@@ -4,7 +4,7 @@
 
 local repo_main = "https://raw.githubusercontent.com/RedGuest2722/MRSC/development/"
 local files = {"Signals/Moduals/signalInterface.lua", "Junction/FFSS to MM.lua", "Junction/SFFS to MM.lua", "Signals/autoSignal_noMain.lua", "Signals/repeaterSignal_noMain.lua", "Signals/manualSignal_noMain.lua"}
-local version = "0.0.1"
+local version = "0.0.2"
 
 -- Download and save file
 local function download(file)
