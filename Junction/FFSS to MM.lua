@@ -7,10 +7,14 @@ os.loadAPI("Moduals/junctionInterface.lua")
 -- Variables
 
 local Monitor = "monitor_3" -- set the name of the monitor (Usually monitor_0)
+local DigBox = "digital_receiver_box_1" -- set the name of the Digital Receiver (Usually digital_reciever_0)
+local IDs = {os.getComputerID, 35} -- set ID of UM (in slot 2) Train type detector
 
 local Modem_Junction = peripheral.wrap("top")
 local Modem_Incoming = peripheral.wrap("left")
 local Modem_Main = peripheral.wrap("back")
+
+Modem_Main.open(3)
 
 -- tell computer which routes are locked, via 3D arrays
 local Route_Locks = {}
@@ -115,6 +119,17 @@ local function modemMessageCheck()
 
 end
 
+local function InitLineID(compID)
+
+    Modem_Main.transmit(3, 500, tostring(compID))
+    -- add thing saying sent Init to LIneID on interface
+    
+end
+
+
+-- Startup
+
+InitLineID(IDs[1])
 
 while true do
 

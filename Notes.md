@@ -7,17 +7,26 @@
 
 -- state = [state, down, main]
 
--- modem ports main = 5, down/up = 2
+-- modem ports main = 5, down/up = 2, LineChoice = 3
 
 -- redstone aspect = red(5) then redstone torch is on
 
--- main mode comms (subareas? for junctions):
--- cable run underneath center for main control/display
-
 -- Redstone is shortened to RS
 
+Junctions:
 -- hold signal ahead data to transmit to previous for allowing across junction on exit computer
 
-Need to do:
+-- aspect_changed, boxname, controller, aspect == os.pullevent() -- for digital rec
+-- aspect = 1 when changed
 
--- 
+-- regarding identifing the track to go from MM use modem.transmit(outport, inport, list -->) but us list {id_junc_comp, line (UF, US)}
+-- corresponding dyes to trains{
+    electric freight = top: Orange, Bottem: Brown = RS 15 strength          -- slow
+    electric passeng = top: Blue, Bottem: Gray = RS 14 strength             -- fast
+
+    steam freight = top: Black, Bottem: Gray = RS 13 strength               -- slow
+    steam passeng = top: Green, Bottem: Gray = RS 12 strength               -- fast
+
+    perp fast me = top: black, Bottem: magenta = RS 11 strength             -- fast
+}
+

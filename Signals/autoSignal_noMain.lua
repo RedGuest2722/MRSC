@@ -100,7 +100,7 @@ end
 
 local function messageCheck()
     os.startTimer(0.1) -- stop os.pull() indefinitely
-    local event, side, senderChannel, replyChannel, message, senderDistance = os.pullEvent()
+    local event, side, _, _, message = os.pullEvent()
 
     if event == "modem_message" then
         if side == "right" then -- from up signal message
