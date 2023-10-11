@@ -143,11 +143,8 @@ signalInterface.Version_Write("Signal Version: " .. vers)
 
 state = {"occupied", 1, 1}
 updateBlock("occupied")
-
-os.sleep(2)
 signalInterface.Write_Text("Initiation Complete")
 
-os.sleep(2)
 local id = os.startTimer(timer_num)
 signalInterface.Write_Text("Waiting for inital signal state, from up signal. (5 secs max)")
 modemUp.transmit(2, 2, "Request") -- request block state from up signal
@@ -161,7 +158,6 @@ until replyChannel == 500 or event == "timer"
 if event == "modem_message" and side_id == "right" then -- from up signal message (startup)
 
 	signalInterface.Write_Text("message received")
-	os.sleep(0.5)
 	signalInterface.Write_Text("Changing to " .. message)
 	os.cancelTimer(id)
 			
@@ -180,7 +176,6 @@ if event == "modem_message" and side_id == "right" then -- from up signal messag
 elseif event == "timer" then
 
 	signalInterface.Write_Text("no message received")
-	os.sleep(0.5)
 	signalInterface.Write_Text("staying as Occupied")
 
 end

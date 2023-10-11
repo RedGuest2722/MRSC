@@ -20,13 +20,8 @@ local function download(file)
 end
 
 print("MRSC Downloader Version: " .. version)
-os.sleep(1)
-
 print("some files may be NIOP.")
-os.sleep(1)
-
 print("All files will automatically update on startup.")
-os.sleep(1)
 print("")
 
 if http.checkURL(repo_main) == false then
@@ -45,8 +40,6 @@ print("")
 if selection == "1" then
 
     print("Signal Selection: ")
-    os.sleep(0.5)
-
     print("1: Automatic Signal")
     print("2: Repeater Signal")
     print("3: Manual Signal")
@@ -56,8 +49,6 @@ if selection == "1" then
 elseif selection == "2" then
 
     print("Junction Selection: ")
-    os.sleep(0.5)
-
     print("1: FFSS to MM")
     print("2: SFFS to MM")
 
@@ -66,8 +57,6 @@ elseif selection == "2" then
 elseif selection == "3" then
     
     print("Station Selection: ")
-    os.sleep(0.5)
-
     error("NIOP")
 
 else
