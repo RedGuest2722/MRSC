@@ -117,6 +117,16 @@ if http.checkURL(repo_main) == false then
 else
 
     Updated = true
+
+    fs.delete("startup.lua")
+
+    local handle = http.get(repo_main .. "startup.lua")
+    local content = handle.readAll()
+    handle.close()
+
+    local fileHandle = fs.open("startup.lua", "w")
+    fileHandle.write(content)
+    fileHandle.close()
     
 end
 
