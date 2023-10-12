@@ -7,9 +7,9 @@ os.loadAPI("Signals/Moduals/signalInterface.lua")
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
 local vers = "0.1.0"
 local line = ( -- uncomment type of line the computer is.
-	-- "UF"
-    -- "US"
-    -- "DM"
+	-- "DF"
+    -- "DS"
+    -- "UM"
 )
 
 -- wraping peripherals
@@ -20,7 +20,7 @@ local modemDown = peripheral.wrap("left")
 local modemUp = peripheral.wrap("right")
 
 -- ports
-modemMain.open(5) -- transmit between signal center and signal
+modemMain.open(5) -- transmit between signal center and signals
 modemDown.open(2) -- transmit to down signal
 modemUp.open(2)   -- transmit to up signal
 
