@@ -7,7 +7,7 @@
 
 -- state = [state, down, main]
 
--- modem ports main = 5, down/up = 2, LineChoice = 3
+-- modem ports main = 5, down/up = 2, LineChoice = 3, lineExit = 2
 
 -- redstone aspect = red(5) then redstone torch is on
 
@@ -16,7 +16,7 @@
 Junctions:
 -- hold signal ahead data to transmit to previous for allowing across junction on exit computer
 
--- aspect_changed, boxname, controller, aspect == os.pullevent() -- for digital rec
+-- aspect_changed, boxname, controllerName, aspect == os.pullevent() -- for digital rec
 -- aspect = 1 when changed
 
 -- regarding identifing the track to go from MM use modem.transmit(outport, inport, list -->) but us list {id_junc_comp, line (UF, US)}

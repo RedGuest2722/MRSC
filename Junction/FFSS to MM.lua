@@ -59,7 +59,6 @@ local function Route_Set(Route)
 
         table.insert(Route_Locks, Routes_Lock_List[1])
         
-        
     elseif Route == "US_UM" then
 
         table.insert(Route_Locks, Routes_Lock_List[2])
@@ -107,7 +106,7 @@ local function exit()
     
 end
 
-local function upStateRequest() --
+local function upStateRequest() 
     
 end
 
@@ -115,7 +114,39 @@ local function signalSet()
     
 end
 
+local functio Route_unLock(route)
+
+    route.gsub("E", "")
+
+    if route == "UM" then
+
+        for q in ipairs(Route_Locks) do
+
+            if Route_Locks[q] == "UF_UM" or "US_UM" then
+
+                table.remove(Route_Locks, q)
+
+            elseif Route_Locks
+            end    
+        end
+
+end
+
 local function modemMessageCheck()
+
+    -- ELL message from exit dect
+
+    os.startTimer(0.05)
+    os.startTimer(0.1) -- stop os.pull() indefinitely
+    local event, _, name, aspect, message = os.pullEvent()
+
+    if event == "modem_mesasge" then
+
+        if message == "EUM" or "EDF" or "EDS"
+
+            Route_unLock()
+
+
 
 end
 
