@@ -14,6 +14,9 @@ local TypeDect = ( -- uncomment type of line the dector is detecting
     -- "DM"
 )
 
+modemUp.open(2)
+modemJunc.open(2)
+
 local function TrainDet()
     
     local TrainStat = redstone.getAnalogueInput("top")

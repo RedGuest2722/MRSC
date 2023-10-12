@@ -15,6 +15,7 @@ local Modem_Main = peripheral.wrap("back")
 local DigConBox = peripheral.wrap("top") -- for points
 
 Modem_Main.open(3)
+Modem_Junction.open(2)
 
 -- tell computer which routes are locked, via 3D arrays
 local Route_Locks = {}
