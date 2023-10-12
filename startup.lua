@@ -2,7 +2,8 @@ local repo_main = "https://raw.githubusercontent.com/RedGuest2722/MRSC/developme
 
 local files = {
     "Signals/Moduals/signalInterface.lua",
-    "Junction/FFSS to MM.lua", "Junction/SFFS to MM.lua",
+    "Junction/FFSStoMM.lua", 
+    "Junction/SFFStoMM.lua",
     "Signals/autoSignal_noMain.lua",
     "Signals/repeaterSignal_noMain.lua",
     "Signals/manualSignal_noMain.lua",
