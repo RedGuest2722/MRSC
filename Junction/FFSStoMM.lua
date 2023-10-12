@@ -1,14 +1,13 @@
 -- Main lines into Fast & Slow Lines
 -- slow lines come off main
 
-
 -- os.loadAPI("Moduals/junctionInterface.lua")
 
 -- Variables
 
 local Monitor = "monitor_3" -- set the name of the monitor (Usually monitor_0)
 
-local IDs = {os.getComputerID, 35} -- set ID of UM (in slot 2) Train type detector
+local IDs = {os.getComputerID(), 35} -- set ID of UM (in slot 2) Train type detector
 
 local Modem_Junction = peripheral.wrap("right")
 local Modem_Main = peripheral.wrap("back")
@@ -23,7 +22,7 @@ local Route_Locks = {}
 local upStates = {nil, nil, nil}
 
 -- tell computer where trains want to go if have to be queued
-Route_Queues = {Fast_Queue = {}, Slow_Queue = {}}
+local Route_Queues = {Fast_Queue = {}, Slow_Queue = {}}
 
 local Routes_Lock_List = {
     UF_UM_locks = {"US_UM"},
@@ -33,28 +32,25 @@ local Routes_Lock_List = {
 }
 
 local function Route_Lock_Check(Check_Route)
+    local Locked = false
 
-    local Locked = true
-
-    for q in ipairs(Routes_Lock_List) do
-        for w in ipairs(Routes_Lock_List[q])do
-            
-            if Check_Route == Routes_Lock_List[q][w] then
-               
+    for q, routeList in pairs(Routes_Lock_List) do
+        local found = false  -- Used a flag to track if a match is found in this inner loop
+        for w, route in pairs(routeList) do
+            if Check_Route == route then
                 Locked = true
-
-                break
-
-            else
-
-                Locked = false
-
+                found = true  -- Set the flag to true when a match is found
+                break  -- Exit the inner loop
             end
+        end
+        if found then
+            break  -- Exit the outer loop when a match is found
         end
     end
 
     return Locked
 end
+
 
 local function Route_Set(Route)
 
@@ -93,7 +89,7 @@ local function Queue_Check() -- check queue for waiting trians
 
     local Route_Locked = {nil, false}  
 
-    if next(Route_Queues[1]) ~= nil or next(Route_Queues[2]) ~= nil then -- Checking Queues
+    if next(Route_Queues[1], 1) ~= nil or next(Route_Queues[2], 1) ~= nil then -- Checking Queues
         if Route_Queues[1][1] ~= nil then -- Fast Queue
             
             Route_Locked = {Route_Queues[1][1], Route_Lock_Check(Route_Queues[1][1])}
@@ -157,13 +153,13 @@ local function modemMessageCheck()
     os.startTimer(0.05) -- stop os.pull() indefinitely
     local event, _, name, _, message = os.pullEvent()
 
-    if event == "modem_mesasge" then
+    if event == "modem_message" then
 
-        if message[1] == "EUM" or "EDF" or "EDS" then
+        if message[1] == "EUM" or message[1] == "EDF" or message[1] == "EDS" then
 
             Route_unLock(message)
 
-        elseif message[2] == "caution" or "clear" then
+        elseif message[2] == "caution" or message[2] == "clear" then
 
             if message[1] == "UF" then
                 
