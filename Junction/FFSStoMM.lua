@@ -2,7 +2,7 @@
 -- slow lines come off main
 
 
-os.loadAPI("Moduals/junctionInterface.lua")
+-- os.loadAPI("Moduals/junctionInterface.lua")
 
 -- Variables
 
@@ -93,7 +93,9 @@ local function Queue_Check() -- check queue for waiting trians
 
     local Route_Locked = {nil, false}
 
-    if Route_Queues[1][1] ~= nil or Route_Queues[2] ~= nil then -- Checking Queues
+    if Route_Queues[1][1] == nil and Route_Queues[2][1] then -- skip       
+
+    elseif Route_Queues[1][1] ~= nil or Route_Queues[2] ~= nil then -- Checking Queues
         if Route_Queues[1][1] ~= nil then -- Fast Queue
             
             Route_Locked = {Route_Queues[1][1], Route_Lock_Check(Route_Queues[1][1])}
