@@ -85,27 +85,18 @@ local function Route_Set(Route)
     end 
 end
 
-local function Queue_Check() -- check queue for waiting trians 
-
-    local Route_Locked = {nil, false}  
-
-    if next(Route_Queues[1], 1) ~= nil or next(Route_Queues[2], 1) ~= nil then -- Checking Queues
-        if Route_Queues[1][1] ~= nil then -- Fast Queue
-            
-            Route_Locked = {Route_Queues[1][1], Route_Lock_Check(Route_Queues[1][1])}
-
-        elseif Route_Queues[2][1] ~= nil then -- Slow Queue
-
-            Route_Locked = {Route_Queues[2][1], Route_Lock_Check(Route_Queues[2][1])}
-
-        end
-
-        if Route_Locked[2] == false then
-        
-            Route_Set(Route_Locked[1])
+local function Queue_Check()
+    local Route_Locked = {nil, false}
     
-        end
-    end 
+    if next(Route_Queues[1], 1) ~= nil then
+        Route_Locked = {Route_Queues[1][1], Route_Lock_Check(Route_Queues[1][1])}
+    elseif next(Route_Queues[2], 1) ~= nil then
+        Route_Locked = {Route_Queues[2][1], Route_Lock_Check(Route_Queues[2][1])}
+    end
+
+    if not Route_Locked[2] then
+        Route_Set(Route_Locked[1])
+    end
 end
 
 local function Route_unLock(route) 
