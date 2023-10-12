@@ -23,7 +23,7 @@ local Route_Locks = {}
 local upStates = {nil, nil, nil}
 
 -- tell computer where trains want to go if have to be queued
-local Route_Queues = {Fast_Queue = {}, Slow_Queue = {}}
+Route_Queues = {Fast_Queue = {}, Slow_Queue = {}}
 
 local Routes_Lock_List = {
     UF_UM_locks = {"US_UM"},
