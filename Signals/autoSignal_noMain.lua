@@ -99,7 +99,7 @@ local function updateBlock(stateChange)
 end
 
 local function messageCheck()
-    os.startTimer(0.1) -- stop os.pull() indefinitely
+    os.startTimer(0.05) -- stop os.pull() indefinitely
     local event, side, _, _, message = os.pullEvent()
 
     if event == "modem_message" then
@@ -109,7 +109,7 @@ local function messageCheck()
             end
         elseif side == "left" and message == "Request" then -- from down signal when starting
             signalInterface.Write_Text("sending status" .. state[1])
-            os.sleep(1)
+            
             if state[1] == "caution" or state[1] == "clear" then
                 modemDown.transmit(2, 500, "clear")
             elseif state[1] == "occupied" then
@@ -127,7 +127,7 @@ local function trainCheck()
 
         -- Wait until train passed the signal
         repeat
-            os.sleep(0.1)
+            os.sleep(0.05)
         until redstone.getAnalogInput("top") == 0
 
         -- Update block to show it's occupied

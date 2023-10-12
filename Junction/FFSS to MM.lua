@@ -7,17 +7,19 @@ os.loadAPI("Moduals/junctionInterface.lua")
 -- Variables
 
 local Monitor = "monitor_3" -- set the name of the monitor (Usually monitor_0)
-local DigBox = "digital_receiver_box_1" -- set the name of the Digital Receiver (Usually digital_reciever_0)
+
 local IDs = {os.getComputerID, 35} -- set ID of UM (in slot 2) Train type detector
 
-local Modem_Junction = peripheral.wrap("top")
-local Modem_Incoming = peripheral.wrap("left")
+local Modem_Junction = peripheral.wrap("right")
 local Modem_Main = peripheral.wrap("back")
+local DigConBox = peripheral.wrap("top") -- for points
 
 Modem_Main.open(3)
 
 -- tell computer which routes are locked, via 3D arrays
 local Route_Locks = {}
+
+local upStates = {nil, nil, nil}
 
 -- tell computer where trains want to go if have to be queued
 local Route_Queues = {Fast_Queue = {}, Slow_Queue = {}}
@@ -55,24 +57,35 @@ end
 
 local function Route_Set(Route)
 
-    if Route == "UF_UM" then
+    if Route == "DF_DM" then
 
         table.insert(Route_Locks, Routes_Lock_List[1])
+        Modem_Junction.transmit(2, 500, {"DF", upStates[1]})
+        -- no points changed
+        table.remove(Route_Queues[1], 1)
         
-    elseif Route == "US_UM" then
+    elseif Route == "DS_DM" then
 
         table.insert(Route_Locks, Routes_Lock_List[2])
+        Modem_Junction.transmit(2, 500, {"DS", upStates[2]})
+        DigConBox.setAspect("P2", 5)
+        table.remove(Route_Queues[2], 1)
 
-    elseif Route == "DM_DF" then
+    elseif Route == "UM_UF" then
 
         table.insert(Route_Locks, Routes_Lock_List[3])
+        Modem_Junction.transmit(2, 500, {"UM", upStates[3]})
+        -- no points changed
+        table.remove(Route_Queues[1], 1)
 
-    elseif Route == "DM_DS" then
+    elseif Route == "UM_US" then
 
         table.insert(Route_Locks, Routes_Lock_List[4])
+        Modem_Junction.transmit(2, 500, {"UM", upStates[3]})
+        DigConBox.setAspect("P1", 5)
+        table.remove(Route_Queues[2], 1)
 
-    end
-    
+    end 
 end
 
 local function Queue_Check() -- check queue for waiting trians
@@ -89,51 +102,35 @@ local function Queue_Check() -- check queue for waiting trians
             Route_Locked = {Route_Queues[2][1], Route_Lock_Check(Route_Queues[2][1])}
 
         end
-    end
 
-    if Route_Locked[2] == false then
+        if Route_Locked[2] == false then
         
-        Route_Set(Route_Locked[1])
-
-    end
-end
-
-local function queueAdd() --
-
-end
-
-local function exit()
+            Route_Set(Route_Locked[1])
     
+        end
+    end 
 end
 
-local function upStateRequest() 
-    
-end
-
-local function signalSet()
-    
-end
-
-local function Route_unLock(route)
+local function Route_unLock(route) 
 
     route.gsub("E", "")
 
-    if route == "UM" then
+    if route == "DM" then
 
         for q in ipairs(Route_Locks) do
 
-            if Route_Locks[q] == "UF_UM_locks" or "US_UM_locks" then
+            if Route_Locks[q] == "DF_DM_locks" or "DS_DM_locks" then
 
                 table.remove(Route_Locks, q)
 
             end    
         end
 
-    elseif route == "DS" then
+    elseif route == "US" then
 
         for q in ipairs(Route_Locks) do
             
-            if Route_Locks[q] == "DM_DS_locks" then
+            if Route_Locks[q] == "UM_US_locks" then
 
                 table.remove(Route_Locks, q)
 
@@ -141,43 +138,70 @@ local function Route_unLock(route)
 
         end
 
-    elseif route == "DF" then
+    elseif route == "UF" then
 
         for q in ipairs(Route_Locks) do
             
-            if Route_Locks[q] == "DM_DF_locks" then
+            if Route_Locks[q] == "UM_UF_locks" then
 
                 table.remove(Route_Locks, q)
 
-            end 
-
+            end
         end
-
     end
 end
 
 local function modemMessageCheck()
 
-    -- ELL message from exit dect
-
-    os.startTimer(0.05)
-    os.startTimer(0.1) -- stop os.pull() indefinitely
-    local event, _, name, aspect, message = os.pullEvent()
+    os.startTimer(0.05) -- stop os.pull() indefinitely
+    local event, _, name, _, message = os.pullEvent()
 
     if event == "modem_mesasge" then
 
-        if message == "EUM" or "EDF" or "EDS" then
+        if message[1] == "EUM" or "EDF" or "EDS" then
 
-            Route_unLock()
+            Route_unLock(message)
 
+        elseif message[2] == "caution" or "clear" then
+
+            if message[1] == "UF" then
+                
+                upStates[1] = message[1]
+
+            elseif message[1] == "US" then
+
+                upStates[2] = message[1]
+
+            elseif message[1] == "DM" then
+
+                upStates[3] = message[1]
+
+            end
+
+            -- signal change function?
+
+        elseif message[1] == IDs[2] then
+        end
+
+    elseif event == "aspect_changed" then
+
+        if name == "DF" then
+
+            table.insert(Route_Queues[1], "DF_DM")
+
+        elseif name == "DS" then
+
+            table.insert(Route_Queues[2], "DS_DM")
+            
         end
     end
 end
 
 local function InitLineID(compID)
 
-    Modem_Main.transmit(3, 500, tostring(compID))
-    -- add thing saying sent Init to LIneID on interface
+    Modem_Main.transmit(3, 500, IDs[2])
+    Modem_Junction.transmit(2, 500, "request")
+    -- add thing saying sent Init for LineID and Exit Detec
     
 end
 
@@ -189,5 +213,6 @@ InitLineID(IDs[1])
 while true do
 
     Queue_Check()
+    modemMessageCheck()
 
 end

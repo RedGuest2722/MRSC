@@ -30,3 +30,4 @@ Junctions:
     perp fast me = top: black, Bottem: magenta = RS 11 strength             -- fast
 }
 
+← ↑ → ↓ -- for Points Junction Interface (if wanted)

@@ -9,12 +9,12 @@ local modemJunc = peripheral.wrap("right")
 local state = "caution"
 
 local TypeDect = ( -- uncomment type of line the dector is detecting
-    -- "DF"
-    -- "DS"
-    -- "UM"
+    -- "UF"
+    -- "US"
+    -- "DM"
 )
 
-local function TrainDect()
+local function TrainDet()
     
     local TrainStat = redstone.getAnalogueInput("top")
 
@@ -27,25 +27,25 @@ local function TrainDect()
 
         until TrainStat == 0
 
-    modemJunc.transmit(2, 500, "E" .. TypeDect)
+    modemJunc.transmit(2, 500, {"E" .. TypeDect})
     
     end
 end
 
 local function modemMessageCheck()
 
-    os.startTimer(0.1) -- stop os.pull() indefinitely
+    os.startTimer(0.05) -- stop os.pull() indefinitely
     local event, _, _, _, message = os.pullEvent()
 
     if event == "modem_message" then
 
-        if message == "request" then
+        if message == "request" then -- only required on start up.
 
             modemJunc.transmit(2, 500, state)
 
         elseif message == "caution" or message == "clear" then
 
-            state = message
+            modemJunc.transmit(2, 500, message)
 
         end
     end
@@ -54,6 +54,6 @@ end
 while true do
 
     modemMessageCheck()
-    TrainDect()
+    TrainDet()
 
 end

@@ -1,7 +1,7 @@
 -- This progarm identifies the line need for the corresponding train
 
 local modem = peripheral.wrap("left")
-local JuncID = nil
+local JuncID = os.getComputerID()
 
 modem.open(3)
 
