@@ -5,7 +5,7 @@ local files = {
     "Junction/FFSS to MM.lua", "Junction/SFFS to MM.lua",
     "Signals/autoSignal_noMain.lua",
     "Signals/repeaterSignal_noMain.lua",
-    "Signals/multiSignal_noMain.lua",
+    "Signals/manualSignal_noMain.lua",
     "Junction/LineIdentifier.lua",
     "Junction/Exit_Detector.lua"
 }
