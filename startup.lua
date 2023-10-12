@@ -6,7 +6,8 @@ local files = {
     "Signals/autoSignal_noMain.lua",
     "Signals/repeaterSignal_noMain.lua",
     "Signals/multiSignal_noMain.lua",
-    "Junction/LineIdentifier.lua"
+    "Junction/LineIdentifier.lua",
+    "Junction/Exit_Detector.lua"
 }
 
 local dir_find = {"Signals/", "Junction/"}
@@ -44,7 +45,7 @@ local function download(file_download, Internet)
         for q = 1, 2 do
             
             -- Find directory in file path
-            local startPos, endPos = string.find(file_download, dir_find[q])
+            local startPos = string.find(file_download, dir_find[q])
 
             -- If directory found
             if startPos then
@@ -108,7 +109,6 @@ end
 if http.checkURL(repo_main) == false then
 
     print("unable to reach the repository for update")
-    os.sleep(0.5)
     print("continuing without updating.")
     os.sleep(3)
 
@@ -135,6 +135,5 @@ for e in ipairs(files) do
         download(files[num], Updated)
 
         break
-  
     end  
 end

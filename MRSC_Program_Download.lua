@@ -10,7 +10,8 @@ local files = {
     "Signals/autoSignal_noMain.lua",
     "Signals/repeaterSignal_noMain.lua",
     "Signals/manualSignal_noMain.lua",
-    "Junction/LineIdentifier.lua"
+    "Junction/LineIdentifier.lua",
+    "Junction/Exit_Detector.lua"
 }
 
 local version = "0.0.2"
@@ -61,6 +62,7 @@ elseif selection == "2" then
     print("1: FFSS to MM")
     print("2: SFFS to MM")
     print("3: Line Identifier")
+    print("4: Junction Exit Detector")
 
     typeProgram = tostring(read())
 
@@ -117,6 +119,10 @@ elseif selection == "2" then
     elseif typeProgram == "3" then
 
         download(files[7])
+
+    elseif typeProgram == "4" then
+
+        download(files[8])
 
     else
 

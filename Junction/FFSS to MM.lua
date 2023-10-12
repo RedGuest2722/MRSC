@@ -114,7 +114,7 @@ local function signalSet()
     
 end
 
-local functio Route_unLock(route)
+local function Route_unLock(route)
 
     route.gsub("E", "")
 
@@ -122,14 +122,38 @@ local functio Route_unLock(route)
 
         for q in ipairs(Route_Locks) do
 
-            if Route_Locks[q] == "UF_UM" or "US_UM" then
+            if Route_Locks[q] == "UF_UM_locks" or "US_UM_locks" then
 
                 table.remove(Route_Locks, q)
 
-            elseif Route_Locks
             end    
         end
 
+    elseif route == "DS" then
+
+        for q in ipairs(Route_Locks) do
+            
+            if Route_Locks[q] == "DM_DS_locks" then
+
+                table.remove(Route_Locks, q)
+
+            end 
+
+        end
+
+    elseif route == "DF" then
+
+        for q in ipairs(Route_Locks) do
+            
+            if Route_Locks[q] == "DM_DF_locks" then
+
+                table.remove(Route_Locks, q)
+
+            end 
+
+        end
+
+    end
 end
 
 local function modemMessageCheck()
@@ -142,12 +166,12 @@ local function modemMessageCheck()
 
     if event == "modem_mesasge" then
 
-        if message == "EUM" or "EDF" or "EDS"
+        if message == "EUM" or "EDF" or "EDS" then
 
             Route_unLock()
 
-
-
+        end
+    end
 end
 
 local function InitLineID(compID)
