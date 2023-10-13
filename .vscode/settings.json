@@ -42,5 +42,8 @@
         "message",
         "senderDistance",
         "junctionInterface"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-field"
     ]
 }
