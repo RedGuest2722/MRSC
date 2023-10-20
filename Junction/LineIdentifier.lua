@@ -6,14 +6,23 @@ local JuncID = os.getComputerID()
 modem.open(3)
 
 local function lineIdentifier(JuncID)
-
+    
+    local over = nil
     local state = redstone.getAnalogInput("right")
 
     if state == 15 or 13 then
+
+        repeat
+            over = redstone.getAnalogInput("right")
+        until over == 0
         
         modem.transmit(3, 500, {JuncID, "US"})
 
     elseif state == 14 or 12 or 11 then
+
+        repeat
+            over = redstone.getAnalogInput("right")
+        until over == 0
 
         modem.transmit(3, 500, {JuncID, "UF"})
 

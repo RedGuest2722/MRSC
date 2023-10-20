@@ -6,11 +6,22 @@ os.loadAPI("Signals/Moduals/signalInterface.lua")
 -- variables
 local digitalList = {"Locking", "Clear", "Caution", "Signal"}
 local vers = "0.1.0"
-local line = ( -- uncomment type of line the computer is.
-	-- "DF"
-    -- "DS"
-    -- "UM"
-)
+local settings_table ={}
+
+-- find out settings from the file, this aviods the auto update removvvving settings
+if fs.exists("Signals/settings.txt") then
+    local settings_file = fs.open("Signals/settings.txt", "r")
+    local contents = settings_file.readAll()
+    settings_file.close()
+    local lines = contents.split("\n")
+    for i, line in ipairs(lines) do
+        settings_table[i] = line
+    end
+else
+    error("No setup file found")
+end
+
+local line = settings_table[1]
 
 -- wraping peripherals
 local digitalController = peripheral.wrap("bottom") -- CC and RC Interface

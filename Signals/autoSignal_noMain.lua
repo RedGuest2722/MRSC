@@ -107,7 +107,7 @@ local function messageCheck()
             if message == "caution" or message == "clear" then
                 updateBlock(message)
             end
-        elseif side == "left" and message == "Request" then -- from down signal when starting
+        elseif side == "left" and message == "Request" then -- from down signal when starting or junction controller
             signalInterface.Write_Text("sending status" .. state[1])
             
             if state[1] == "caution" or state[1] == "clear" then
