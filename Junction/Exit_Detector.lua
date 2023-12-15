@@ -6,13 +6,23 @@
 
 local modemUp = peripheral.wrap("left")
 local modemJunc = peripheral.wrap("right")
-local state = "caution"
+      state = "caution"
+local settings_table ={}
 
-local TypeDect = ( -- uncomment type of line the dector is detecting
-    -- "UF"
-    -- "US"
-    -- "DM"
-)
+-- find out settings from the file, this aviods the auto update removvvving settings
+if fs.exists("Junction/settings.txt") then
+    local settings_file = fs.open("Junction/settings.txt", "r")
+    local contents = settings_file.readAll()
+    settings_file.close()
+    local lines = contents.split("\n")
+    for i, line in ipairs(lines) do
+        settings_table[i] = line
+    end
+else
+    error("No setup file found")
+end
+
+local line = settings_table[1]
 
 modemUp.open(2)
 modemJunc.open(2)
@@ -30,7 +40,7 @@ local function TrainDet()
 
         until TrainStat == 0
 
-    modemJunc.transmit(2, 500, {"E" .. TypeDect})
+    modemJunc.transmit(2, 500, {{"E", settings_table[1]}})
     
     end
 end
@@ -48,7 +58,7 @@ local function modemMessageCheck()
 
         elseif message == "caution" or message == "clear" then
 
-            modemJunc.transmit(2, 500, message)
+            state = message
 
         end
     end
