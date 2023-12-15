@@ -52,13 +52,13 @@ local function modemMessageCheck()
 
     if event == "modem_message" then
 
-        if message == "request" then -- only required on start up.
+        if message == "request" then -- only required on startup.
 
             modemJunc.transmit(2, 500, state)
 
         elseif message == "caution" or message == "clear" then
 
-            state = message
+            modemJunc.transmit(2, 500, )
 
         end
     end
