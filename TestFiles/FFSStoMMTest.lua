@@ -2,6 +2,7 @@
 
 -- Varibales
 local settings_table = {}
+local states = {nil, nil, nil} -- {Main, Fast, Slow}
 
 -- read settings file and output into a table that can be used
 if fs.exists("Junction/settings.txt") then
@@ -41,6 +42,6 @@ local function event_check()
 
         --
         
-    end
-    
+    end  
 end
+
