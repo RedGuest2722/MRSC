@@ -8,7 +8,7 @@ local digitalList = {"Locking", "Clear", "Caution", "Signal"}
 local vers = "0.1.0"
 local settings_table ={}
 
--- find out settings from the file, this aviods the auto update removvvving settings
+-- find out settings from the file, this aviods the auto update removing settings
 if fs.exists("Signals/settings.txt") then
     local settings_file = fs.open("Signals/settings.txt", "r")
     local contents = settings_file.readAll()

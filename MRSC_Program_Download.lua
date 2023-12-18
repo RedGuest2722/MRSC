@@ -56,7 +56,7 @@ local function file_settings(file)
         end
     end
     
-    if requires_settings then
+    if requires_settings == true then
         if string.gmatch(file, "Junction") then
             fs.makeDir("Junction/settings.txt")
             write_settings("Junction/settings.txt", "Junction", file)

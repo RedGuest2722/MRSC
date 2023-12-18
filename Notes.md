@@ -31,3 +31,8 @@ Junctions:
 }
 
 ← ↑ → ↓ -- for Points Junction Interface (if wanted)
+
+
+-- additions
+
+add request after 1 min to resync if needed
