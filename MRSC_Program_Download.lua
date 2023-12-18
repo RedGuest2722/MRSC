@@ -21,60 +21,6 @@ local computerID = nil
 local line = nil
 local file_write = nil
 
-local function write_settings(path, type, file)
-    if type == "Junction" then
-        if file == files[2] or file == files[3] then
-            print("please type the computer ID of the Mainline Line identifier")
-            computerID = read()
-        end
-    elseif type == "Signal" then
-        print("please type the type of line the computer is for")
-        print("either UM, DM, UF, DF, US, UF.")
-        print("that is not code U/D stands for up/down and M/F/S stands for main/fast/slow")
-        line = read()
-    end
-
-    if computerID ~= nil then
-
-        file_write = fs.open("Junction/settings.txt")
-        file_write.write(computerID)
-        file_write.close()
-
-    elseif line ~= nil then
-
-        file_write = fs.open("Signals/settings.txt")
-        file_write.write(line)
-        file_write.close()
-
-    end
-end
-
-local function file_settings(file)
-
-    print("Files downloaded")
-    print("")
-
-    if selection == "1" then
-        if file == files[6] then
-            requires_settings = true
-        end
-    elseif selection == "2" then
-        if file == files[2] or file == files[3] or file == files[8] then
-            requires_settings = true
-        end
-    end
-    
-    if requires_settings == true then
-        if string.gmatch(file, "Junction") then
-            fs.makeDir("Junction/settings.txt")
-            write_settings("Junction/settings.txt", "Junction", file)
-        elseif string.gmatch(file, "Signals") then
-            fs.makeDir("Signals/settings.txt")
-            write_settings("Signals/settings.txt", "Signal", file)
-        end
-    end        
-end
-
 -- Download and save file
 local function download(file)
     -- Get file from repo
@@ -87,7 +33,6 @@ local function download(file)
     fileHandle.write(content)
     fileHandle.close()
 
-    file_settings()
 end
 
 -- where it begins
@@ -193,7 +138,12 @@ elseif selection == "2" then
     end
 end
 
-print("would you like to start the program (yes/no)")
+print("Download Completed")
+
+os.sleep(2)
+print("")
+
+print("would you like to start the program (y/n)")
 
 local start = string.lower(read())
 
