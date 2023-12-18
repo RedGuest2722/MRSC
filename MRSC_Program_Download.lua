@@ -24,15 +24,17 @@ local file_write = nil
 local function write_settings(path, type, file)
     if type == "Junction" then
         if file == files[2] or file == files[3] then
-            print("please type the computer ID of the Mainline")
+            print("please type the computer ID of the Mainline Line identifier")
+            computerID = read()
+        end
     elseif type == "Signal" then
         print("please type the type of line the computer is for")
-            print("either UM, DM, UF, DF, US, UF.")
-            print("that is not code U/D stands for up/down and M/F/S stands for main/fast/slow")
-            line = read()
+        print("either UM, DM, UF, DF, US, UF.")
+        print("that is not code U/D stands for up/down and M/F/S stands for main/fast/slow")
+        line = read()
     end
 
-    if computerID == nil then
+    if computerID ~= nil then
         file_write = fs.open("Junction/settings.txt")
         file_write.write(computerID)
         file_write.close()
@@ -80,6 +82,7 @@ local function download(file)
     file_settings()
 end
 
+-- where it begins
 print("MRSC Downloader Version: " .. version)
 print("some files may be NIOP.")
 print("All files will automatically update on startup.")
@@ -186,7 +189,7 @@ print("would you like to start the program (yes/no)")
 
 local start = string.lower(read())
 
-if start == "yes" then
+if start == "yes" or start == "y" then
     
     shell.execute("startup.lua")
 
