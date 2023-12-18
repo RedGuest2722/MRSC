@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- This progarm identifies the line need for the corresponding train
 
 local modem = peripheral.wrap("left")
@@ -51,4 +52,59 @@ while true do
     lineIdentifier(JuncID)
     os.sleep(0.05)
 
+=======
+-- This progarm identifies the line need for the corresponding train
+
+local modem = peripheral.wrap("left")
+local JuncID = os.getComputerID()
+
+modem.open(3)
+
+local function lineIdentifier(JuncID)
+    
+    local over = nil
+    local state = redstone.getAnalogInput("right")
+
+    if state == 15 or 13 then
+
+        repeat
+            over = redstone.getAnalogInput("right")
+        until over == 0
+        
+        modem.transmit(3, 500, {JuncID, "US"})
+
+    elseif state == 14 or 12 or 11 then
+
+        repeat
+            over = redstone.getAnalogInput("right")
+        until over == 0
+
+        modem.transmit(3, 500, {JuncID, "UF"})
+
+    end
+end
+
+-- startup
+
+print("Waiting for message from Junction control.")
+print("Id of this computer is " .. tostring(os.getComputerID()) .. "." )
+
+repeat
+
+    local _, _, _, _, message = os.pullEvent()
+    
+    JuncID = message
+
+    os.sleep(0.05)
+
+until JuncID ~= nil
+
+print("Junction control ID recieved")
+
+while true do
+    
+    lineIdentifier(JuncID)
+    os.sleep(0.05)
+
+>>>>>>> 1032b10495afaa37aa52b7c21ff870760c331f5f
 end
