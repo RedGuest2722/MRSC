@@ -35,9 +35,17 @@ local function write_settings(path, type, file)
     end
 
     if computerID ~= nil then
+
         file_write = fs.open("Junction/settings.txt")
         file_write.write(computerID)
         file_write.close()
+
+    elseif line ~= nil then
+
+        file_write = fs.open("Signals/settings.txt")
+        file_write.write(line)
+        file_write.close()
+
     end
 end
 
