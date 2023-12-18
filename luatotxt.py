@@ -4,8 +4,6 @@ import shutil
 def convert_lua_to_txt(file_path, output_folder):
     with open(file_path, 'r') as lua_file:
         lua_content = lua_file.read()
-
-    txt_content = lua_content.replace('\n', ' ')
     
     # Create the output folder if it doesn't exist
     os.makedirs(output_folder, exist_ok=True)
@@ -13,7 +11,7 @@ def convert_lua_to_txt(file_path, output_folder):
     txt_file_path = os.path.join(output_folder, os.path.basename(file_path).replace('.lua', '.txt'))
 
     with open(txt_file_path, 'w') as txt_file:
-        txt_file.write(txt_content)
+        txt_file.write(lua_content)
 
 def convert_lua_files_in_directory(directory, output_folder):
     # Delete all files in the output folder before conversion

@@ -8,6 +8,7 @@ local modemUp = peripheral.wrap("left")
 local modemJunc = peripheral.wrap("right")
       state = "caution"
 local settings_table ={}
+local do_settings = "n"
 
 -- find out settings from the file, this aviods the auto update removvvving settings
 if fs.exists("Junction/settings.txt") then
@@ -19,7 +20,17 @@ if fs.exists("Junction/settings.txt") then
         settings_table[i] = line
     end
 else
-    error("No setup file found")
+    print("Settings are needed to run.")
+    print("Would you like to add them. (y/n)")
+
+    do_settings = io.read().lower()
+
+    if do_settings.lower() == "y" or do_settings.lower() == "yes" then
+        
+        
+
+    end
+
 end
 
 local line = settings_table[1]
