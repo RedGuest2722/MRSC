@@ -1,0 +1,11 @@
+Minecraft Railway Signaling Center (MRSC)
+
+To Do:
+
+    -- write code for an automatic Signal.
+    -- write code for junction.
+
+Possible Featurs to add:
+
+    -- Signals find nearest signal via messages with the user giving its type of line (i.e. UM, DM, DF, UF, US, DS, DR, UR).
+    -- Manual Control of a ll junctions? (ATM: all are automatic with a queue.)
